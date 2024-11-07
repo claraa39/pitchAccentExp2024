@@ -425,7 +425,7 @@ var practice_sound = {
 var practice_question = {
     type: jsPsychHtmlButtonResponse, 
     stimulus: question, 
-    choices: [jsPsych.timelineVariable('textOption_0'),jsPsych.timelineVariable('textOption_1')], 
+    choices: [jsPsych.timelineVariable('textOption_0'),jsPsych.timelineVariable('textOption_1'),jsPsych.timelineVariable('textOption_2'),jsPsych.timelineVariable('textOption_3')], 
     data: {phase: 'practice', 
             word: jsPsych.timelineVariable('word'), 
             carrier: jsPsych.timelineVariable('carrier'),
@@ -434,8 +434,10 @@ var practice_question = {
             wordAccentStep: jsPsych.timelineVariable('wordAccentStep'), 
             carrierAccent: jsPsych.timelineVariable('carrierAccent'),
             carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'), 
-            option_0: jsPsych.timelineVariable('option_0'), 
-            option_1: jsPsych.timelineVariable('option_1'),
+            textOption_0: jsPsych.timelineVariable('textOption_0'), 
+            textOption_1: jsPsych.timelineVariable('textOption_1'),
+            textOption_2: jsPsych.timelineVariable('textOption_2'),
+            textOption_3: jsPsych.timelineVariable('textOption_3'),
             sound: jsPsych.timelineVariable('sound'),
             correctAnswer: jsPsych.timelineVariable('correctAnswer'),
             correctText: jsPsych.timelineVariable('correctText')
