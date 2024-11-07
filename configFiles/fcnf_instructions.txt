@@ -1,0 +1,5 @@
+<h1>単語の聴取実験</h1> 
+<p style="text-align: center;">「単語の〇〇が出た」という文が聞こえてきます。</p>
+<p style="text-align: center;">「〇〇」の部分がどのような単語だったか、聞こえたと思う方の単語をクリックしてください。</p>
+<p style="text-align: center;">音量が大きすぎたり小さすぎる場合には、適宜調整してください。</p>
+<p style="text-align: center;">始めるには「Next」のボタンをクリックしてください。</p>

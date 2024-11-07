@@ -1,0 +1,9 @@
+﻿word,wordAccent,wordAccentStep,carrier,carrierAccent,carrierAccentStep,textOption_0,textOption_1,option_0,option_1,sound,correctAnswer,correctText
+hana,A,1,deta,A,1,花,鼻,hanaA,hanaU,hanaA_ga_09_70dB,0,花
+hana,U,1,deta,U,1,花,鼻,hanaA,hanaU,hanaU_ga_05_70dB,1,鼻
+hana,A,1,deta,A,1,花,鼻,hanaA,hanaU,hanaA_ga_10_70dB,0,花
+hana,U,1,deta,U,1,花,鼻,hanaA,hanaU,hanaU_ga_06_70dB,1,鼻
+hana,A,1,deta,A,1,鼻,花,hanaU,hanaA,hanaA_ga_09_70dB,1,花
+hana,U,1,deta,U,1,鼻,花,hanaU,hanaA,hanaU_ga_05_70dB,0,鼻
+hana,A,1,deta,A,1,鼻,花,hanaU,hanaA,hanaA_ga_10_70dB,1,花
+hana,U,1,deta,U,1,鼻,花,hanaU,hanaA,hanaU_ga_06_70dB,0,鼻
