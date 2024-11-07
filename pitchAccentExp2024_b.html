@@ -393,6 +393,7 @@
             block = j + noOfRepetitions + 1;
             for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
+                var options = shuffleArray([currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2]);
                 /**	Plays the sound **/
                 exp_block.push(
                     {
@@ -407,7 +408,7 @@
                     {
                         type: jsPsychHtmlButtonResponse,
                         stimulus: question,
-                        choices: [currentStimulus.textOption_1, currentStimulus.textOption_0], //answers swapped
+                        choices: options, //answers swapped
                         data: {
                             phase: 'iden_exp',
                             word: currentStimulus.word,
@@ -417,8 +418,10 @@
                             wordAccentStep: currentStimulus.wordAccentStep,
                             carrierAccent: currentStimulus.carrierAccent,
                             carrierAccentStep: currentStimulus.carrierAccentStep,
-                            option_0: currentStimulus.option_1,
-                            option_1: currentStimulus.option_0,
+                            option_0: options[0],
+                            option_1: options[1],
+                            option_2: options[2],
+                            option_3: options[3],
                             sound: currentStimulus.sound
                         },
                         on_finish: function (data) {
@@ -492,6 +495,12 @@
                 answer = data.option_0;
             } else if (data.response == 1) {
                 answer = data.option_1;
+            }
+            else if (data.response == 2) {
+                answer = data.option_2;
+            }
+            else if (data.response == 3) {
+                answer = data.option_3;
             };
             if (data.response == data.correctAnswer) {
                 accuracy = 1;
@@ -571,208 +580,6 @@
 
     practice_block.push(correctLoop_node);
 
-    //practice_block.push(correctLoop_node);
-    // var practice_procedure = {
-    //     timeline: [
-    //         {
-    //             type: jsPsychAudioKeyboardResponse, 
-    //             stimulus: function() {
-    //                 return 'sound/'+ jsPsych.timelineVariable('sound') + '.wav' ;
-    //             }, 
-    //             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-    //             choices: "NO_KEYS", 
-    //             trial_duration: 2200, 
-    //         },
-    //         {
-    //             type: jsPsychHtmlButtonResponse, 
-    //             stimulus: question, 
-    //             choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
-    //             data: {phase: 'practice', 
-    //                     word: jsPsych.timelineVariable('word'), 
-    //                     carrier: jsPsych.timelineVariable('carrier'),
-    //                     block: "practice",
-    //                     wordAccent: jsPsych.timelineVariable('wordAccent'),
-    //                     wordAccentStep: jsPsych.timelineVariable('wordAccentStep'), 
-    //                     carrierAccent: jsPsych.timelineVariable('carrierAccent'),
-    //                     carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'), 
-    //                     option_0: jsPsych.timelineVariable('option_0'), 
-    //                     option_1: jsPsych.timelineVariable('option_1'),
-    //                     sound: jsPsych.timelineVariable('sound'),
-    //                     correctAnswer: jsPsych.timelineVariable('correctAnswer')
-    //                 },
-    //             on_finish: function(data){
-    //                 var answer = "";
-    //                 var accuracy = 0;
-    //                 if(data.response == 0){
-    //                     answer = data.option_0;
-    //                 }else if(data.response == 1){
-    //                     answer = data.option_1;
-    //                 };
-    //                 if(data.response == data.correctAnswer ){
-    //                     accuracy = 1; 
-    //                 }; 
-
-    //                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
-    //             } 
-    //         },
-    //         {
-    //             type: jsPsychHtmlKeyboardResponse,
-    //             stimulus: function() {
-    //                 var feedback_text = incorrectFeedbackText;
-    //                 var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-    //                 if (last_resp_acc == 1) {
-    //                     feedback_text = correctFeedbackText;
-    //                 }
-    //                 return feedback_text;
-    //             },
-    //             choices: "NO_KEYS",
-    //             trial_duration: 1000
-    //         }
-    //     ],
-    //     timeline_variables: practiceStimuliList,
-    //     randomize_order: false
-    // }
-    // for(var i=0; i<exp_words.length; i++){
-    //     //currentWord = hVt_words[i];
-    //     noOfPractice = practiceStimuliList.length; // assuming no of practice is even
-    //     firstBlockOfPractice = Math.floor(noOfPractice/2);
-
-    //         for (var k=0; k<noOfPractice; k++){
-    //                 /**	Plays the sound **/
-    //                 currentStimulus = practiceStimuliList[k];
-    //                 practice_block.push(
-    //                     {
-    //                         type: jsPsychAudioKeyboardResponse, 
-    //                         stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-    //                         prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-    //                         choices: "NO_KEYS", 
-    //                         trial_duration: 2200, 
-    //                     }
-    //                 );
-    //                 practice_block.push(
-    //                     {
-    //                         type: jsPsychHtmlButtonResponse, 
-    //                         stimulus: question, 
-    //                         choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
-    //                         data: {phase: 'practice', 
-    //                                 word: currentStimulus.word, 
-    //                                 carrier: currentStimulus.carrier,
-    //                                 block: block,
-    //                                 wordAccent: currentStimulus.wordAccent,
-    //                                 wordAccentStep: currentStimulus.wordAccentStep, 
-    //                                 carrierAccent: currentStimulus.carrierAccent,
-    //                                 carrierAccentStep: currentStimulus.carrierAccentStep, 
-    //                                 option_0: currentStimulus.option_0, 
-    //                                 option_1: currentStimulus.option_1, 
-    //                                 sound: currentStimulus.sound,
-    //                                 correctAnswer: currentStimulus.correctAnswer
-    //                             },
-    //                         on_finish: function(data){
-    //                             var answer = "";
-    //                             var accuracy = 0;
-    //                             if(data.response == 0){
-    //                                 answer = data.option_0;
-    //                             }else if(data.response == 0){
-    //                                 answer = data.option_1;
-    //                             };
-    //                             if(data.response == data.correctAnswer ){
-    //                                 accuracy = 1; 
-    //                                 noOfCorrectPractice++;
-    //                             }; 
-
-    //                             jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy, noOfCorrectPractice:noOfCorrectPractice});  
-    //                         } 
-    //                     }
-    //                 );
-    //                 practice_block.push(
-    //                     {
-    //                     type: jsPsychHtmlKeyboardResponse,
-    //                     stimulus: function() {
-    //                         var feedback_text = incorrectFeedbackText;
-    //                         var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-    //                         if (last_resp_acc == 1) {
-    //                             feedback_text = correctFeedbackText;
-    //                         }
-    //                         return feedback_text;
-    //                     },
-    //                     choices: "NO_KEYS",
-    //                     trial_duration: 1000
-    //                 });
-
-    //         };
-
-    // swapping button locations every set
-    // practice_block.push(
-    //     {
-    //         type: jsPsychInstructions, 
-    //         pages: [ buttonSwapText ], 
-    //         show_clickable_nav: true,
-    //         button_label: "Next",
-    //     }
-    // );
-    // for (var k=firstBlockOfPractice; k<noOfPractice; k++){
-    //     /**	Plays the sound **/
-    //     currentStimulus = practiceStimuliList[k];
-    //     practice_block.push(
-    //         {
-    //             type: jsPsychAudioKeyboardResponse, 
-    //             stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-    //             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-    //             choices: "NO_KEYS", 
-    //             trial_duration: 2200, 
-    //         }
-    //     );
-    //     practice_block.push(
-    //         {
-    //             type: jsPsychHtmlButtonResponse, 
-    //             stimulus: question, 
-    //             choices: [currentStimulus.textOption_1,currentStimulus.textOption_0], 
-    //             data: {phase: 'practice', 
-    //                     word: currentStimulus.word, 
-    //                     carrier: currentStimulus.carrier,
-    //                     block: block,
-    //                     wordAccent: currentStimulus.wordAccent,
-    //                     wordAccentStep: currentStimulus.wordAccentStep, 
-    //                     carrierAccent: currentStimulus.carrierAccent,
-    //                     carrierAccentStep: currentStimulus.carrierAccentStep, 
-    //                     option_0: currentStimulus.option_1, 
-    //                     option_1: currentStimulus.option_0, 
-    //                     sound: currentStimulus.sound,
-    //                     correctAnswer: currentStimulus.correctAnswer
-    //                 },
-    //             on_finish: function(data){
-    //                 var answer = "";
-    //                 var accuracy = 0;
-    //                 if(data.response == 0){
-    //                     answer = data.option_0;
-    //                 }else if(data.response == 1){
-    //                     answer = data.option_1;
-    //                 };
-    //                 if(data.correctAnswer == data.button_pressed){
-    //                     accuracy = 1; 
-    //                 }; 
-    //                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
-    //             } 
-    //         }
-
-    //     );
-    //     practice_block.push(
-    //         {
-    //         type: 'html-keyboard-response',
-    //         stimulus: function() {
-    //             var feedback_text = '<span style="color:red;font-size:30px;">Incorrect.</span>';
-    //             var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-    //             if (last_resp_acc == 1) {
-    //                 feedback_text = '<span style="color:green;font-size:30px;">Correct!</span>'
-    //             }
-    //             return feedback_text;
-    //         },
-    //         choices: "NO_KEYS",
-    //         trial_duration: 2000
-    //     });
-    // };
-    //}
-
 
     /*********************************************************************************/
     /************************** User defined functions *******************************/
@@ -851,6 +658,18 @@
         jsPsych.pluginAPI.cancelAllKeyboardResponses();
         jsPsych.pluginAPI.clearAllTimeouts();
     };
+
+    // shuffle the button order
+    function shuffleArray(array) {
+        let shuffledArray = array.slice();  // Create a copy of the original array to avoid modifying it
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+            // Generate a random index from 0 to i
+            const j = Math.floor(Math.random() * (i + 1));
+            // Swap elements at indices i and j
+            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+        return shuffledArray;
+    }
 
     /*********************************************************************************/
     /******************** Make timeline like flow in Psychopy ************************/
