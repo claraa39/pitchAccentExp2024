@@ -1,8 +1,8 @@
 <!-- 	This Program is developed on jsPsych library by Lisa Sullivan
-		Some elements were developed by Hyoung Seok Kwon & Na-Young Ryu --> 
-<!-- Development period: from Oct 26, 2017 to May, 2020 --> 
+		Some elements were developed by Hyoung Seok Kwon & Na-Young Ryu -->
+<!-- Development period: from Oct 26, 2017 to May, 2020 -->
 <!-- library location: jspsych/ -->
-<!-- PHP file: save_data.php --> 
+<!-- PHP file: save_data.php -->
 <!-- result file location and format: data/time_result.csv -->
 <!-- jsPsych.currentTimelineNodeID bug: cann't get activeID when it is called in jsPsych.init.-->
 <!-- Warning: if you provide an array that has very few valid permutations with no neighboring elements, 
@@ -13,80 +13,120 @@
 					mathematicians. Journal of autism and developmental disorders, 31(1), 
 					5-17.
 -->
- 
+
 <!DOCTYPE html>
 <html>
-<head> 
-    <meta charset="UTF-8"> 
+
+<head>
+    <meta charset="UTF-8">
     <!-- Specify the title of your experiment here. This appears in the browser tab for the user -->
-    <title>Listening test</title> 
+    <title>Listening test</title>
     <!-- 	this loads jquery and the main jspsych files. Do not remove (updates to more recent 
     		versions may cause issues)
     -->
-    <script src="jquery/jquery-3.2.1.min.js"></script> 
-    <script src="jspsych/jspsych.js"></script> 
+    <script src="jquery/jquery-3.2.1.min.js"></script>
+    <script src="jspsych/jspsych.js"></script>
     <!-- Load your plugins here -->
-    <script src="jspsych/plugin-instructions.js"></script> 
-    <script src="jspsych/plugin-survey-text.js"></script> 
-    <script src="jspsych/plugin-survey-multi-choice.js"></script> 
-    <script src="jspsych/plugin-survey-likert.js"></script> 
-    <script src="jspsych/plugin-survey-html-form.js"></script> 
+    <script src="jspsych/plugin-instructions.js"></script>
     <script src="jspsych/plugin-survey-text.js"></script>
-    <script src="jspsych/plugin-audio-keyboard-response.js"></script> 
+    <script src="jspsych/plugin-survey-multi-choice.js"></script>
+    <script src="jspsych/plugin-survey-likert.js"></script>
+    <script src="jspsych/plugin-survey-html-form.js"></script>
+    <script src="jspsych/plugin-survey-text.js"></script>
+    <script src="jspsych/plugin-audio-keyboard-response.js"></script>
     <script src="jspsych/plugin-categorize-html.js"></script>
-    <script src="jspsych/plugin-html-button-response.js"></script> 
-    <script src="jspsych/plugin-html-keyboard-response.js"></script> 
+    <script src="jspsych/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugin-html-keyboard-response.js"></script>
     <!-- Loads the css file with the standard formatting -->
-    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css"></link>
-    
+    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css">
+    </link>
+
     <!-- Custom CSS to make the experiment look nice -->
     <style type="text/css">
-    	.jspsych-btn{margin: 15px;}
-    	.jspsych-content-wrapper{width: 80%;}
-    	.jspsych-content-wrapper p, h3, ol {text-align: left;}
-    	.jspsych-content-wrapper .btn_resp_p, .jspsych-content-wrapper label{text-align: left;}
-        .jspsych-content-wrapper .jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-text{text-align: left;font-weight: bold;}
-    	.jspsych-content-wrapper .jspsych-survey-multi-choice-option .jspsych-survey-multi-choice-text{font-weight: normal;}
-    	.jspsych-survey-multi-choice-option input[type="radio"]{height: 20px; width: 20px; margin-bottom: 1em;}
-        .jspsych-content-wrapper .jspsych-survey-text-question {text-align: left;}
-    	.jspsych-survey-multi-choice-option .jspsych-survey-multi-choice-text{font-weight: normal;}
+        .jspsych-btn {
+            margin: 15px;
+        }
 
-        .jspsych-content{width: 100%;}
-        
-    	.snd-btn {
-			display: inline-block;
-  			padding: 6px 12px;
-  			margin: 4px;
-  			background: #fff;
-  			cursor: pointer;
-  			text-align: center;
-  			white-space: nowrap;
-  			vertical-align: middle;
-  			border: 1px solid transparent;
-  			border-radius: 4px;
-  			border-color: #ccc;
-		}
+        .jspsych-content-wrapper {
+            width: 80%;
+        }
 
-		.snd-btn:hover {
-  			box-shadow: 0 0px 8px 0 rgba(0,0,0,0.48), 0 0px 25px 0 rgba(0,0,0,0.38);
-		}
-		
-		.snd-btn:active {
-			transform: translate(2px,2px);
-			box-shadow: 0 0px 8px 0 rgba(0,0,0,0.24), 0 0px 25px 0 rgba(0,0,0,0.19);
-		}
-		
-		/* Modify height and width here to adjust the size of the buttons */
-		.jspsych-html-button-response-button .jspsych-btn{font-size: 150%;width: 5em;height:3em;}
-        
+        .jspsych-content-wrapper p,
+        h3,
+        ol {
+            text-align: left;
+        }
+
+        .jspsych-content-wrapper .btn_resp_p,
+        .jspsych-content-wrapper label {
+            text-align: left;
+        }
+
+        .jspsych-content-wrapper .jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-text {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .jspsych-content-wrapper .jspsych-survey-multi-choice-option .jspsych-survey-multi-choice-text {
+            font-weight: normal;
+        }
+
+        .jspsych-survey-multi-choice-option input[type="radio"] {
+            height: 20px;
+            width: 20px;
+            margin-bottom: 1em;
+        }
+
+        .jspsych-content-wrapper .jspsych-survey-text-question {
+            text-align: left;
+        }
+
+        .jspsych-survey-multi-choice-option .jspsych-survey-multi-choice-text {
+            font-weight: normal;
+        }
+
+        .jspsych-content {
+            width: 100%;
+        }
+
+        .snd-btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin: 4px;
+            background: #fff;
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            border-color: #ccc;
+        }
+
+        .snd-btn:hover {
+            box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.48), 0 0px 25px 0 rgba(0, 0, 0, 0.38);
+        }
+
+        .snd-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.24), 0 0px 25px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        /* Modify height and width here to adjust the size of the buttons */
+        .jspsych-html-button-response-button .jspsych-btn {
+            font-size: 150%;
+            width: 5em;
+            height: 3em;
+        }
     </style>
 
 </head>
-<body> 
-    
+
+<body>
 
 
-    <div id="jspsych-target">    
+
+    <div id="jspsych-target">
 
     </div>
 
@@ -95,346 +135,349 @@
 
 
 <script>
-/*********************************************************************************/
-/****************************** Global Variables *********************************/
-/*********************************************************************************/
-noOfCorrectPracticeToMoveOn = 7;
-inst = ''; // Variable for storing the instructions
-stimuliList = '';// Variable for storing the input data (csv)
-consent= '';// Variable for storing the consent
-exp_words=['hana']; // Variable for storing the input data (csv)
-noOfRepetitions = 1; // will be multiplied by 2 due to button swapping
-participantID = '';
-practiceStimuliList = '';
-stimuliList = '';
+    /*********************************************************************************/
+    /****************************** Global Variables *********************************/
+    /*********************************************************************************/
+    noOfCorrectPracticeToMoveOn = 7;
+    inst = ''; // Variable for storing the instructions
+    stimuliList = '';// Variable for storing the input data (csv)
+    consent = '';// Variable for storing the consent
+    exp_words = ['hana']; // Variable for storing the input data (csv)
+    noOfRepetitions = 1; // will be multiplied by 2 due to button swapping
+    participantID = '';
+    practiceStimuliList = '';
+    stimuliList = '';
 
     instructionsAfterPractice = '<p style="text-align: center;">The formal test starts from here. If you have any question, please do not heasitate to ask. <br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
-buttonSwapText = '<p style="text-align: center;">ボタンの位置が入れ替わります。先に進むには、「Next」のボタンをクリックしてください。<br>休憩を取っていただいてもかまいません。</p>';
+    buttonSwapText = '<p style="text-align: center;">ボタンの位置が入れ替わります。先に進むには、「Next」のボタンをクリックしてください。<br>休憩を取っていただいてもかまいません。</p>';
     finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
-correctFeedbackText = '<span style="color:green;font-size:30px;">正解です。</span>'
-incorrectFeedbackText = '<span style="color:red;font-size:30px;">正解は</span>'
-incorrectFeedbackText2 = '<span style="color:red;font-size:30px;">です。</span>'
+    correctFeedbackText = '<span style="color:green;font-size:30px;">正解です。</span>'
+    incorrectFeedbackText = '<span style="color:red;font-size:30px;">正解は</span>'
+    incorrectFeedbackText2 = '<span style="color:red;font-size:30px;">です。</span>'
 
-noOfCorrectPractice = 0;
+    noOfCorrectPractice = 0;
 
-/*********************************************************************************/
-/****************************** Reading file data ********************************/
-/*********************************************************************************/
+    /*********************************************************************************/
+    /****************************** Reading file data ********************************/
+    /*********************************************************************************/
 
-/** This reads in the text in fcnf_instructions.txt and stores it in a variable called
-	'inst'.
-**/
-$.ajax({
-    type: "GET", 
-    async: false, 
+    /** This reads in the text in fcnf_instructions.txt and stores it in a variable called
+        'inst'.
+    **/
+    $.ajax({
+        type: "GET",
+        async: false,
         url: "configFiles/consent_1.txt",
-    dataType: "text", 
-    success: function(txt) {inst=txtJSON(txt);}
-});
+        dataType: "text",
+        success: function (txt) { inst = txtJSON(txt); }
+    });
 
 
-// /** This reads in the data for the experiment from in word_stimuli.csv and stores it in 
-// 	a variable called 'stimuliList'.
-// **/
-$.ajax({
-    type: "GET", 
-    async: false, 
-    url: "configFiles/expStimuli.csv", 
-    dataType: "text", 
-    success: function(csv) {stimuliList=csvJSON(csv)}
-});
-// /** This reads in the data for the experiment from in practice_stimuli.csv and stores it in 
-// 	a variable called 'stimuliList'.
-// **/
-$.ajax({
-    type: "GET", 
-    async: false, 
-    url: "configFiles/practiceStimuli.csv", 
-    dataType: "text", 
-    success: function(csv) {practiceStimuliList=csvJSON(csv)}
-});
-totalNumberPractice = practiceStimuliList.length;
-//practiceStimuliList.json = JSON.stringify(practiceStimuliList); //JSON
+    // /** This reads in the data for the experiment from in word_stimuli.csv and stores it in 
+    // 	a variable called 'stimuliList'.
+    // **/
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "configFiles/expStimuli.csv",
+        dataType: "text",
+        success: function (csv) { stimuliList = csvJSON(csv) }
+    });
+    // /** This reads in the data for the experiment from in practice_stimuli.csv and stores it in 
+    // 	a variable called 'stimuliList'.
+    // **/
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "configFiles/practiceStimuli.csv",
+        dataType: "text",
+        success: function (csv) { practiceStimuliList = csvJSON(csv) }
+    });
+    totalNumberPractice = practiceStimuliList.length;
+    //practiceStimuliList.json = JSON.stringify(practiceStimuliList); //JSON
 
-/*********************************************************************************/
-/****************************** Initialising jsPsych *****************************/
-/*********************************************************************************/
-var jsPsych = initJsPsych({
-    
-    show_progress_bar: true, 
-    default_iti : 300,
-    on_close: function(){
-        var data = jsPsych.data.get();  // updates the data file with the most recent trial
-        identificationData = jsPsych.data.get().filter([{phase: "practice"}, {phase:"iden_exp"}]);  // only getting response phases
-        identificationData = identificationData.ignore(['internal_node_id', 'trial_type']);  // ignoring internal node id
-        //identificationData = identificationData.ignore('trial_type');  // ignoring trial_type
-        identificationData.localSave('csv','pitchAccentPilot_responses_onCLose_' + participantID + '.csv'); //save locally
-    },
-    on_finish:  function(data) {
-        data = jsPsych.data.get();  // updates the data file with the most recent trial
-        identificationData = jsPsych.data.get().filter([{phase: "practice"}, {phase:"iden_exp"}]);  // only getting response phases
-        identificationData = identificationData.ignore(['internal_node_id', 'trial_type']);  // ignoring internal node id
-        //identificationData = identificationData.ignore('trial_type');  // ignoring trial_type
-        identificationData.localSave('csv','pitchAccentPilot_responses_' + participantID + '.csv'); //save locally
+    /*********************************************************************************/
+    /****************************** Initialising jsPsych *****************************/
+    /*********************************************************************************/
+    var jsPsych = initJsPsych({
 
-        finish(); //prints the message you saved in the finish() function above
+        show_progress_bar: true,
+        default_iti: 300,
+        on_close: function () {
+            var data = jsPsych.data.get();  // updates the data file with the most recent trial
+            identificationData = jsPsych.data.get().filter([{ phase: "practice" }, { phase: "iden_exp" }]);  // only getting response phases
+            identificationData = identificationData.ignore(['internal_node_id', 'trial_type']);  // ignoring internal node id
+            //identificationData = identificationData.ignore('trial_type');  // ignoring trial_type
+            identificationData.localSave('csv', 'pitchAccentPilot_responses_onCLose_' + participantID + '.csv'); //save locally
+        },
+        on_finish: function (data) {
+            data = jsPsych.data.get();  // updates the data file with the most recent trial
+            identificationData = jsPsych.data.get().filter([{ phase: "practice" }, { phase: "iden_exp" }]);  // only getting response phases
+            identificationData = identificationData.ignore(['internal_node_id', 'trial_type']);  // ignoring internal node id
+            //identificationData = identificationData.ignore('trial_type');  // ignoring trial_type
+            identificationData.localSave('csv', 'pitchAccentPilot_responses_' + participantID + '.csv'); //save locally
+
+            finish(); //prints the message you saved in the finish() function above
+        }
+
+
+    });
+
+    //participantID = jsPsych.randomization.randomID(8);
+
+
+
+    /*********************************************************************************/
+    /******************************** Enter participant No **********************************/
+    /*********************************************************************************/
+
+    var participantID_block = {
+        type: jsPsychSurveyText,
+        //preamble: "<h1>Participation ID</h1>",
+        questions: [{ prompt: "<p>Participation ID </p>", rows: 1, columns: 80 }],
+        button_label: "Next",
+        on_finish: function (data) {
+            jsPsych.data.addProperties({ participantID: data.response.Q0 });
+            participantID = data.response.Q0;
+        }
+    };
+
+
+    /**********************************************************************************/
+    /******************** Define sound check/activation block *************************/
+    /**********************************************************************************/
+
+    /** Sound Check: This allows the participant to check that their sound is working & is at 
+        an appropriate volume
+        It also makes the experiment work in Google Chrome and other web browsers that don't 
+        allow auto-loading of sound without the user manually playing the sound first
+    **/
+    // var sound_test = {
+    //     	type: jsPsychInstructions, 
+    //     	pages: [ '<audio id="testAudio"><source src="sound/tone200Hz_82dB_plus6dBFromMeanSegment.wav" type="audio/wav"></audio><h1>Sound Test</h1><p style="text-align: center;">Please test your sound by clicking the button below. You may click it multiple times to adjust your volume so you can hear it clearly.</p><button onclick="playSound()" type="button" class="snd-btn"><img src="img/sound.jpg" alt="Click to test sound" /></button>' ], 
+    //     	show_clickable_nav: true,
+    //     	button_label: "Next",
+    // };
+
+    /*************************************************************************************/
+    /******************************** Instruction block **********************************/
+    /*************************************************************************************/
+
+    /**	Loads the instructions
+        To modify instructions, modify fcnf_instructions.txt using full HTML (including <p>
+        tags)
+        Push this block to the timeline below
+    **/
+    var instructions_block = {
+        type: jsPsychInstructions,
+        pages: [inst],
+        show_clickable_nav: true
+    };
+
+    var instructionsAfterPractice_block = {
+        type: jsPsychInstructions,
+        pages: [instructionsAfterPractice],
+        button_label_next: "Next",
+        show_clickable_nav: true
     }
-  
 
-});
+    // var instructionsBeforeSurvey_block = {
+    //     type: jsPsychInstructions, 
+    //     pages: [instructionsBeforeSurvey ],
+    //     button_label_next: "Next",
+    //     show_clickable_nav: true
+    // }
 
-//participantID = jsPsych.randomization.randomID(8);
+
+
+    /*********************************************************************************/
+    /*************************** Define experiment block *******************************/
+    /*********************************************************************************/
 
 
 
-/*********************************************************************************/
-/******************************** Enter participant No **********************************/
-/*********************************************************************************/
-
-var participantID_block = {
-    type: jsPsychSurveyText,
-    //preamble: "<h1>Participation ID</h1>",
-    questions: [{prompt: "<p>Participation ID </p>", rows: 1, columns: 80}],
-    button_label: "Next",
-    on_finish: function(data){
-        jsPsych.data.addProperties({participantID: data.response.Q0}); 
-        participantID = data.response.Q0;
-    }
-};
-  
-
-/**********************************************************************************/
-/******************** Define sound check/activation block *************************/
-/**********************************************************************************/
+    /** This randomizes the stimuli in stimuliList and stores them in a variable called
+        'exp_stimuli'.
     
-/** Sound Check: This allows the participant to check that their sound is working & is at 
-	an appropriate volume
-	It also makes the experiment work in Google Chrome and other web browsers that don't 
-	allow auto-loading of sound without the user manually playing the sound first
-**/
-// var sound_test = {
-//     	type: jsPsychInstructions, 
-//     	pages: [ '<audio id="testAudio"><source src="sound/tone200Hz_82dB_plus6dBFromMeanSegment.wav" type="audio/wav"></audio><h1>Sound Test</h1><p style="text-align: center;">Please test your sound by clicking the button below. You may click it multiple times to adjust your volume so you can hear it clearly.</p><button onclick="playSound()" type="button" class="snd-btn"><img src="img/sound.jpg" alt="Click to test sound" /></button>' ], 
-//     	show_clickable_nav: true,
-//     	button_label: "Next",
-// };
-
-/*************************************************************************************/
-/******************************** Instruction block **********************************/
-/*************************************************************************************/
-
-/**	Loads the instructions
-	To modify instructions, modify fcnf_instructions.txt using full HTML (including <p>
-	tags)
-	Push this block to the timeline below
-**/
-var instructions_block = {
-    type: jsPsychInstructions, 
-    pages: [inst], 
-    show_clickable_nav: true
-};
-
-var instructionsAfterPractice_block = {
-    type: jsPsychInstructions, 
-    pages: [instructionsAfterPractice],
-    button_label_next: "Next",
-    show_clickable_nav: true
-}
-
-// var instructionsBeforeSurvey_block = {
-//     type: jsPsychInstructions, 
-//     pages: [instructionsBeforeSurvey ],
-//     button_label_next: "Next",
-//     show_clickable_nav: true
-// }
+    **/
 
 
 
-/*********************************************************************************/
-/*************************** Define experiment block *******************************/
-/*********************************************************************************/
-
-
-
-/** This randomizes the stimuli in stimuliList and stores them in a variable called
-	'exp_stimuli'.
-
-**/
-
-
-
-/** This creates the variable that all the trials will be stored in. To run the task,
-	push this to the timeline
-**/
-var exp_block = [];
-var totalSet = exp_words.length; //defined at the beginning
-/** This creates the main task. It loops through each item in exp_stimuli creating an
-	audio event to play each sound, followed by a 2 alternative forced choice
-	question in which the participants indicate which word they heard
-	
-	trial_duration determines the time from the onset of the audio until the
-	identification task is presented to the listener
-
-    3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
-**/
-for(var i=0; i<exp_words.length; i++){
-    currentSetNo = i + 1;
-    //currentWord = exp_words[i];
-    // only need the below if doing multiple sets
-    // exp_block.push( 
-    //     {
-    //         type: jsPsychInstructions, 
-    //         pages: [ '<h1>Set ' + currentSetNo + '</h1><p style="text-align: center;">There are '+ totalSet + ' in total. Please click NEXT to proceed, take a break if you need to. </p>' ], 
-    //         show_clickable_nav: true,
-    //         button_label: "Next",
-    //     }
-    // );
-    for (var j=0; j<noOfRepetitions; j++){
-        block = j+1;
-        exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
-        for (var k=0; k<exp_stimuli.length; k++){
+    /** This creates the variable that all the trials will be stored in. To run the task,
+        push this to the timeline
+    **/
+    var exp_block = [];
+    var totalSet = exp_words.length; //defined at the beginning
+    /** This creates the main task. It loops through each item in exp_stimuli creating an
+        audio event to play each sound, followed by a 2 alternative forced choice
+        question in which the participants indicate which word they heard
+    	
+        trial_duration determines the time from the onset of the audio until the
+        identification task is presented to the listener
+    
+        3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
+    **/
+    for (var i = 0; i < exp_words.length; i++) {
+        currentSetNo = i + 1;
+        //currentWord = exp_words[i];
+        // only need the below if doing multiple sets
+        // exp_block.push( 
+        //     {
+        //         type: jsPsychInstructions, 
+        //         pages: [ '<h1>Set ' + currentSetNo + '</h1><p style="text-align: center;">There are '+ totalSet + ' in total. Please click NEXT to proceed, take a break if you need to. </p>' ], 
+        //         show_clickable_nav: true,
+        //         button_label: "Next",
+        //     }
+        // );
+        for (var j = 0; j < noOfRepetitions; j++) {
+            block = j + 1;
+            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
+            for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
                 /**	Plays the sound **/
                 exp_block.push(
                     {
-                        type: jsPsychAudioKeyboardResponse, 
-                        stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-                        prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-                        choices: "NO_KEYS", 
-                        trial_duration: 2000, 
+                        type: jsPsychAudioKeyboardResponse,
+                        stimulus: 'sound/' + currentStimulus.sound + '.wav',
+                        prompt: '<img src="img/sound.jpg" height="200" width="200">',
+                        choices: "NO_KEYS",
+                        trial_duration: 2000,
                     }
                 );
                 exp_block.push(
                     {
-                        type: jsPsychHtmlButtonResponse, 
-                        stimulus: question, 
-                        choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
-                        data: {phase: 'iden_exp', 
-                                word: currentStimulus.word, 
-                                carrier: currentStimulus.carrier,
-                                block: block,
-                                wordAccent: currentStimulus.wordAccent,
-                                wordAccentStep: currentStimulus.wordAccentStep, 
-                                carrierAccent: currentStimulus.carrierAccent,
-                                carrierAccentStep: currentStimulus.carrierAccentStep, 
-                                option_0: currentStimulus.option_0, 
-                                option_1: currentStimulus.option_1, 
-                                sound: currentStimulus.sound
-                            },
-                        on_finish: function(data){
+                        type: jsPsychHtmlButtonResponse,
+                        stimulus: question,
+                        choices: [currentStimulus.textOption_0, currentStimulus.textOption_1],
+                        data: {
+                            phase: 'iden_exp',
+                            word: currentStimulus.word,
+                            carrier: currentStimulus.carrier,
+                            block: block,
+                            wordAccent: currentStimulus.wordAccent,
+                            wordAccentStep: currentStimulus.wordAccentStep,
+                            carrierAccent: currentStimulus.carrierAccent,
+                            carrierAccentStep: currentStimulus.carrierAccentStep,
+                            option_0: currentStimulus.option_0,
+                            option_1: currentStimulus.option_1,
+                            sound: currentStimulus.sound
+                        },
+                        on_finish: function (data) {
                             var answer = "";
-                                if(data.response == 0){
-                                    answer = data.option_0;
-                                }else if(data.response == 1){
-                                    answer = data.option_1;
-                                };
-                            jsPsych.data.addDataToLastTrial({answer: answer});  
-                        } 
+                            if (data.response == 0) {
+                                answer = data.option_0;
+                            } else if (data.response == 1) {
+                                answer = data.option_1;
+                            };
+                            jsPsych.data.addDataToLastTrial({ answer: answer });
+                        }
                     }
                 );
             };
         };
-    // swapping button locations every set
-    exp_block.push(
-        {
-            type: jsPsychInstructions, 
-            pages: [ buttonSwapText ], 
-            show_clickable_nav: true,
-            button_label: "Next",
-        }
-    );
-    for (var j=0; j<noOfRepetitions; j++){
-        exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
-        block = j + noOfRepetitions + 1;
-        for (var k=0; k<exp_stimuli.length; k++){
+        // swapping button locations every set
+        exp_block.push(
+            {
+                type: jsPsychInstructions,
+                pages: [buttonSwapText],
+                show_clickable_nav: true,
+                button_label: "Next",
+            }
+        );
+        for (var j = 0; j < noOfRepetitions; j++) {
+            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
+            block = j + noOfRepetitions + 1;
+            for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
                 /**	Plays the sound **/
                 exp_block.push(
                     {
-                        type: jsPsychAudioKeyboardResponse, 
-                        stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-                        prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-                        choices: "NO_KEYS", 
-                        trial_duration: 2000, 
+                        type: jsPsychAudioKeyboardResponse,
+                        stimulus: 'sound/' + currentStimulus.sound + '.wav',
+                        prompt: '<img src="img/sound.jpg" height="200" width="200">',
+                        choices: "NO_KEYS",
+                        trial_duration: 2000,
                     }
                 );
                 exp_block.push(
                     {
-                        type: jsPsychHtmlButtonResponse, 
-                        stimulus: question, 
-                        choices: [currentStimulus.textOption_1,currentStimulus.textOption_0], //answers swapped
-                        data: {phase: 'iden_exp', 
-                                word: currentStimulus.word, 
-                                carrier: currentStimulus.carrier,
-                                block: block,
-                                wordAccent: currentStimulus.wordAccent,
-                                wordAccentStep: currentStimulus.wordAccentStep, 
-                                carrierAccent: currentStimulus.carrierAccent,
-                                carrierAccentStep: currentStimulus.carrierAccentStep, 
-                                option_0: currentStimulus.option_1, 
-                                option_1: currentStimulus.option_0, 
-                                sound: currentStimulus.sound
-                            },
-                        on_finish: function(data){
+                        type: jsPsychHtmlButtonResponse,
+                        stimulus: question,
+                        choices: [currentStimulus.textOption_1, currentStimulus.textOption_0], //answers swapped
+                        data: {
+                            phase: 'iden_exp',
+                            word: currentStimulus.word,
+                            carrier: currentStimulus.carrier,
+                            block: block,
+                            wordAccent: currentStimulus.wordAccent,
+                            wordAccentStep: currentStimulus.wordAccentStep,
+                            carrierAccent: currentStimulus.carrierAccent,
+                            carrierAccentStep: currentStimulus.carrierAccentStep,
+                            option_0: currentStimulus.option_1,
+                            option_1: currentStimulus.option_0,
+                            sound: currentStimulus.sound
+                        },
+                        on_finish: function (data) {
                             var answer = "";
-                                if(data.response == 0){ //first button, which is option 2
-                                    answer = data.option_1; //answers swapped
-                                }else if(data.response == 1){
-                                    answer = data.option_0;
-                                };
-                            jsPsych.data.addDataToLastTrial({answer: answer});  
-                        } 
+                            if (data.response == 0) { //first button, which is option 2
+                                answer = data.option_1; //answers swapped
+                            } else if (data.response == 1) {
+                                answer = data.option_0;
+                            };
+                            jsPsych.data.addDataToLastTrial({ answer: answer });
+                        }
                     }
                 );
+            };
         };
+    }
+
+    /*********************************************************************************/
+    /*************************** Define practice block *******************************/
+    /*********************************************************************************/
+    var practice_block = [];
+    var practice_instructions = {
+        type: jsPsychInstructions,
+        pages: [practiceInstructions],
+        show_clickable_nav: true,
+        button_label: "Next",
     };
-}
 
-/*********************************************************************************/
-/*************************** Define practice block *******************************/
-/*********************************************************************************/
-var practice_block = [];
-var practice_instructions = {
-    type: jsPsychInstructions, 
-    pages: [ practiceInstructions], 
-    show_clickable_nav: true,
-    button_label: "Next",
-};
-
-var buttonSwapInstructions = {
-    type: jsPsychInstructions, 
-    pages: [ buttonSwapText ], 
-    show_clickable_nav: true,
-    button_label: "Next",
-}
+    var buttonSwapInstructions = {
+        type: jsPsychInstructions,
+        pages: [buttonSwapText],
+        show_clickable_nav: true,
+        button_label: "Next",
+    }
 
 
-var practice_sound = {
-    type: jsPsychAudioKeyboardResponse, 
-            stimulus: function() { // needs to be evaluated in a function
-                return 'sound/'+ jsPsych.timelineVariable('sound') + '.wav' ;
-            }, 
-            prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-            choices: "NO_KEYS", 
-            trial_duration: 2200
-}
-var practice_question = {
-    type: jsPsychHtmlButtonResponse, 
-    stimulus: question, 
-    choices: [jsPsych.timelineVariable('textOption_0'),jsPsych.timelineVariable('textOption_1'),jsPsych.timelineVariable('textOption_2'),jsPsych.timelineVariable('textOption_3')], 
-    data: {phase: 'practice', 
-            word: jsPsych.timelineVariable('word'), 
+    var practice_sound = {
+        type: jsPsychAudioKeyboardResponse,
+        stimulus: function () { // needs to be evaluated in a function
+            return 'sound/' + jsPsych.timelineVariable('sound') + '.wav';
+        },
+        prompt: '<img src="img/sound.jpg" height="200" width="200">',
+        choices: "NO_KEYS",
+        trial_duration: 2200
+    }
+    var practice_question = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: question,
+        choices: [jsPsych.timelineVariable('textOption_0'), jsPsych.timelineVariable('textOption_1'), jsPsych.timelineVariable('textOption_2'), jsPsych.timelineVariable('textOption_3')],
+        data: {
+            phase: 'practice',
+            word: jsPsych.timelineVariable('word'),
             carrier: jsPsych.timelineVariable('carrier'),
             block: "practice",
             wordAccent: jsPsych.timelineVariable('wordAccent'),
-            wordAccentStep: jsPsych.timelineVariable('wordAccentStep'), 
+            wordAccentStep: jsPsych.timelineVariable('wordAccentStep'),
             carrierAccent: jsPsych.timelineVariable('carrierAccent'),
-            carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'), 
-            textOption_0: jsPsych.timelineVariable('textOption_0'), 
+            carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'),
+            textOption_0: jsPsych.timelineVariable('textOption_0'),
             textOption_1: jsPsych.timelineVariable('textOption_1'),
             textOption_2: jsPsych.timelineVariable('textOption_2'),
             textOption_3: jsPsych.timelineVariable('textOption_3'),
@@ -442,404 +485,405 @@ var practice_question = {
             correctAnswer: jsPsych.timelineVariable('correctAnswer'),
             correctText: jsPsych.timelineVariable('correctText')
         },
-    on_finish: function(data){
-        var answer = "";
-        var accuracy = 0;
-        if(data.response == 0){
-            answer = data.option_0;
-        }else if(data.response == 1){
-            answer = data.option_1;
-        };
-        if(data.response == data.correctAnswer ){
-            accuracy = 1; 
-            noOfCorrectPractice++
-            console.log(noOfCorrectPractice)
-        }; 
-        
-        jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
-    } 
-}
+        on_finish: function (data) {
+            var answer = "";
+            var accuracy = 0;
+            if (data.response == 0) {
+                answer = data.option_0;
+            } else if (data.response == 1) {
+                answer = data.option_1;
+            };
+            if (data.response == data.correctAnswer) {
+                accuracy = 1;
+                noOfCorrectPractice++
+                console.log(noOfCorrectPractice)
+            };
 
-
-var practice_feedback = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: function() {
-        var feedback_text = incorrectFeedbackText + '<span style="color:red;font-size:30px;">'+jsPsych.data.getLastTrialData().values()[0].correctText + '</span>' + incorrectFeedbackText2;
-        var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-        if (last_resp_acc == 1) {
-            feedback_text = correctFeedbackText;
+            jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
         }
-        return feedback_text;
-    },
-    choices: "NO_KEYS",
-    trial_duration: 1000
-}
-
-var if_continue = {
-    
-            type: jsPsychHtmlButtonResponse, 
-            stimulus: question_continue, 
-            choices: ["Repeat","Continue"]
-        
-}
-
-var prac_procedure_1 = {
-            timeline: [practice_sound, practice_question,practice_feedback],
-            timeline_variables: practiceStimuliList.slice(0, 4),
-            randomize_order: true
-};
-var prac_procedure_2 = {
-            timeline: [practice_sound, practice_question,practice_feedback],
-            timeline_variables: practiceStimuliList.slice(4, 8),
-            randomize_order: true
-};
-
-var practice_set = {
-            timeline: [prac_procedure_1,buttonSwapInstructions, prac_procedure_2],
-            randomize_order: false
-};
-
-
-
-
-var correctLoop_node = {
-    timeline: [practice_set,buttonSwapInstructions],
-    loop_function: function(){
-        return false;
     }
-}
 
 
-var evaluate_if_continue = {
-    timeline: [practice_set],
-    loop_function: function(){
-        // get the data from the previous trial,
-        // and check which key was pressed
-        var data = jsPsych.data.get().last(1).values()[0];
-        if(data.response == 1){
+    var practice_feedback = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+            var feedback_text = incorrectFeedbackText + '<span style="color:red;font-size:30px;">' + jsPsych.data.getLastTrialData().values()[0].correctText + '</span>' + incorrectFeedbackText2;
+            var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
+            if (last_resp_acc == 1) {
+                feedback_text = correctFeedbackText;
+            }
+            return feedback_text;
+        },
+        choices: "NO_KEYS",
+        trial_duration: 1000
+    }
+
+    var if_continue = {
+
+        type: jsPsychHtmlButtonResponse,
+        stimulus: question_continue,
+        choices: ["Repeat", "Continue"]
+
+    }
+
+    var prac_procedure_1 = {
+        timeline: [practice_sound, practice_question, practice_feedback],
+        timeline_variables: practiceStimuliList.slice(0, 4),
+        randomize_order: true
+    };
+    var prac_procedure_2 = {
+        timeline: [practice_sound, practice_question, practice_feedback],
+        timeline_variables: practiceStimuliList.slice(4, 8),
+        randomize_order: true
+    };
+
+    var practice_set = {
+        timeline: [prac_procedure_1, buttonSwapInstructions, prac_procedure_2],
+        randomize_order: false
+    };
+
+
+
+
+    var correctLoop_node = {
+        timeline: [practice_set, buttonSwapInstructions],
+        loop_function: function () {
             return false;
-        } else {
-            return true;
         }
     }
-}
-
-practice_block.push(practice_instructions);
-
-practice_block.push(correctLoop_node);
-
-//practice_block.push(correctLoop_node);
-// var practice_procedure = {
-//     timeline: [
-//         {
-//             type: jsPsychAudioKeyboardResponse, 
-//             stimulus: function() {
-//                 return 'sound/'+ jsPsych.timelineVariable('sound') + '.wav' ;
-//             }, 
-//             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-//             choices: "NO_KEYS", 
-//             trial_duration: 2200, 
-//         },
-//         {
-//             type: jsPsychHtmlButtonResponse, 
-//             stimulus: question, 
-//             choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
-//             data: {phase: 'practice', 
-//                     word: jsPsych.timelineVariable('word'), 
-//                     carrier: jsPsych.timelineVariable('carrier'),
-//                     block: "practice",
-//                     wordAccent: jsPsych.timelineVariable('wordAccent'),
-//                     wordAccentStep: jsPsych.timelineVariable('wordAccentStep'), 
-//                     carrierAccent: jsPsych.timelineVariable('carrierAccent'),
-//                     carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'), 
-//                     option_0: jsPsych.timelineVariable('option_0'), 
-//                     option_1: jsPsych.timelineVariable('option_1'),
-//                     sound: jsPsych.timelineVariable('sound'),
-//                     correctAnswer: jsPsych.timelineVariable('correctAnswer')
-//                 },
-//             on_finish: function(data){
-//                 var answer = "";
-//                 var accuracy = 0;
-//                 if(data.response == 0){
-//                     answer = data.option_0;
-//                 }else if(data.response == 1){
-//                     answer = data.option_1;
-//                 };
-//                 if(data.response == data.correctAnswer ){
-//                     accuracy = 1; 
-//                 }; 
-                
-//                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
-//             } 
-//         },
-//         {
-//             type: jsPsychHtmlKeyboardResponse,
-//             stimulus: function() {
-//                 var feedback_text = incorrectFeedbackText;
-//                 var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-//                 if (last_resp_acc == 1) {
-//                     feedback_text = correctFeedbackText;
-//                 }
-//                 return feedback_text;
-//             },
-//             choices: "NO_KEYS",
-//             trial_duration: 1000
-//         }
-//     ],
-//     timeline_variables: practiceStimuliList,
-//     randomize_order: false
-// }
-// for(var i=0; i<exp_words.length; i++){
-//     //currentWord = hVt_words[i];
-//     noOfPractice = practiceStimuliList.length; // assuming no of practice is even
-//     firstBlockOfPractice = Math.floor(noOfPractice/2);
-    
-//         for (var k=0; k<noOfPractice; k++){
-//                 /**	Plays the sound **/
-//                 currentStimulus = practiceStimuliList[k];
-//                 practice_block.push(
-//                     {
-//                         type: jsPsychAudioKeyboardResponse, 
-//                         stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-//                         prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-//                         choices: "NO_KEYS", 
-//                         trial_duration: 2200, 
-//                     }
-//                 );
-//                 practice_block.push(
-//                     {
-//                         type: jsPsychHtmlButtonResponse, 
-//                         stimulus: question, 
-//                         choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
-//                         data: {phase: 'practice', 
-//                                 word: currentStimulus.word, 
-//                                 carrier: currentStimulus.carrier,
-//                                 block: block,
-//                                 wordAccent: currentStimulus.wordAccent,
-//                                 wordAccentStep: currentStimulus.wordAccentStep, 
-//                                 carrierAccent: currentStimulus.carrierAccent,
-//                                 carrierAccentStep: currentStimulus.carrierAccentStep, 
-//                                 option_0: currentStimulus.option_0, 
-//                                 option_1: currentStimulus.option_1, 
-//                                 sound: currentStimulus.sound,
-//                                 correctAnswer: currentStimulus.correctAnswer
-//                             },
-//                         on_finish: function(data){
-//                             var answer = "";
-//                             var accuracy = 0;
-//                             if(data.response == 0){
-//                                 answer = data.option_0;
-//                             }else if(data.response == 0){
-//                                 answer = data.option_1;
-//                             };
-//                             if(data.response == data.correctAnswer ){
-//                                 accuracy = 1; 
-//                                 noOfCorrectPractice++;
-//                             }; 
-                            
-//                             jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy, noOfCorrectPractice:noOfCorrectPractice});  
-//                         } 
-//                     }
-//                 );
-//                 practice_block.push(
-//                     {
-//                     type: jsPsychHtmlKeyboardResponse,
-//                     stimulus: function() {
-//                         var feedback_text = incorrectFeedbackText;
-//                         var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-//                         if (last_resp_acc == 1) {
-//                             feedback_text = correctFeedbackText;
-//                         }
-//                         return feedback_text;
-//                     },
-//                     choices: "NO_KEYS",
-//                     trial_duration: 1000
-//                 });
-
-//         };
-        
-        // swapping button locations every set
-        // practice_block.push(
-        //     {
-        //         type: jsPsychInstructions, 
-        //         pages: [ buttonSwapText ], 
-        //         show_clickable_nav: true,
-        //         button_label: "Next",
-        //     }
-        // );
-        // for (var k=firstBlockOfPractice; k<noOfPractice; k++){
-        //     /**	Plays the sound **/
-        //     currentStimulus = practiceStimuliList[k];
-        //     practice_block.push(
-        //         {
-        //             type: jsPsychAudioKeyboardResponse, 
-        //             stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
-        //             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
-        //             choices: "NO_KEYS", 
-        //             trial_duration: 2200, 
-        //         }
-        //     );
-        //     practice_block.push(
-        //         {
-        //             type: jsPsychHtmlButtonResponse, 
-        //             stimulus: question, 
-        //             choices: [currentStimulus.textOption_1,currentStimulus.textOption_0], 
-        //             data: {phase: 'practice', 
-        //                     word: currentStimulus.word, 
-        //                     carrier: currentStimulus.carrier,
-        //                     block: block,
-        //                     wordAccent: currentStimulus.wordAccent,
-        //                     wordAccentStep: currentStimulus.wordAccentStep, 
-        //                     carrierAccent: currentStimulus.carrierAccent,
-        //                     carrierAccentStep: currentStimulus.carrierAccentStep, 
-        //                     option_0: currentStimulus.option_1, 
-        //                     option_1: currentStimulus.option_0, 
-        //                     sound: currentStimulus.sound,
-        //                     correctAnswer: currentStimulus.correctAnswer
-        //                 },
-        //             on_finish: function(data){
-        //                 var answer = "";
-        //                 var accuracy = 0;
-        //                 if(data.response == 0){
-        //                     answer = data.option_0;
-        //                 }else if(data.response == 1){
-        //                     answer = data.option_1;
-        //                 };
-        //                 if(data.correctAnswer == data.button_pressed){
-        //                     accuracy = 1; 
-        //                 }; 
-        //                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
-        //             } 
-        //         }
-            
-        //     );
-        //     practice_block.push(
-        //         {
-        //         type: 'html-keyboard-response',
-        //         stimulus: function() {
-        //             var feedback_text = '<span style="color:red;font-size:30px;">Incorrect.</span>';
-        //             var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-        //             if (last_resp_acc == 1) {
-        //                 feedback_text = '<span style="color:green;font-size:30px;">Correct!</span>'
-        //             }
-        //             return feedback_text;
-        //         },
-        //         choices: "NO_KEYS",
-        //         trial_duration: 2000
-        //     });
-        // };
-//}
 
 
-/*********************************************************************************/
-/************************** User defined functions *******************************/
-/*********************************************************************************/
+    var evaluate_if_continue = {
+        timeline: [practice_set],
+        loop_function: function () {
+            // get the data from the previous trial,
+            // and check which key was pressed
+            var data = jsPsych.data.get().last(1).values()[0];
+            if (data.response == 1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 
-/**	This reads .txt  files and stores them in a variable **/
-function txtJSON(txt){
-    var text = ''; 
-    var lines = txt.split('\n'); 
-    for (var i=0 ; i<lines.length ; i++) {
-        text = text + lines[i]; 
-    } 
-    return text;
-};
+    practice_block.push(practice_instructions);
 
-/**	This reads .csv  files and stores them in a variable **/
-//var csv is the CSV file with headers
-function csvJSON(csv){
-    var lines=csv.split(/\r\n|\n/); 
-    var result = []; 
-    var headers=lines[0].split(','); 
-    var headers=lines[0].split(','); 
-    var headers=lines[0].split(','); 
-    // TODO should check for empty lines at end
-    for(var i=1;i<(lines.length);i++){
-        var obj = {}; 
-        var currentline=lines[i].split(','); 
-        for(var j=0;j<headers.length;j++){
-            obj[headers[j]] = currentline[j]; 
-        } 
-        result.push(obj); 
-    } 
-    return result; //JavaScript object
-  //return JSON.stringify(result); //JSON
-};
+    practice_block.push(correctLoop_node);
+
+    //practice_block.push(correctLoop_node);
+    // var practice_procedure = {
+    //     timeline: [
+    //         {
+    //             type: jsPsychAudioKeyboardResponse, 
+    //             stimulus: function() {
+    //                 return 'sound/'+ jsPsych.timelineVariable('sound') + '.wav' ;
+    //             }, 
+    //             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
+    //             choices: "NO_KEYS", 
+    //             trial_duration: 2200, 
+    //         },
+    //         {
+    //             type: jsPsychHtmlButtonResponse, 
+    //             stimulus: question, 
+    //             choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
+    //             data: {phase: 'practice', 
+    //                     word: jsPsych.timelineVariable('word'), 
+    //                     carrier: jsPsych.timelineVariable('carrier'),
+    //                     block: "practice",
+    //                     wordAccent: jsPsych.timelineVariable('wordAccent'),
+    //                     wordAccentStep: jsPsych.timelineVariable('wordAccentStep'), 
+    //                     carrierAccent: jsPsych.timelineVariable('carrierAccent'),
+    //                     carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'), 
+    //                     option_0: jsPsych.timelineVariable('option_0'), 
+    //                     option_1: jsPsych.timelineVariable('option_1'),
+    //                     sound: jsPsych.timelineVariable('sound'),
+    //                     correctAnswer: jsPsych.timelineVariable('correctAnswer')
+    //                 },
+    //             on_finish: function(data){
+    //                 var answer = "";
+    //                 var accuracy = 0;
+    //                 if(data.response == 0){
+    //                     answer = data.option_0;
+    //                 }else if(data.response == 1){
+    //                     answer = data.option_1;
+    //                 };
+    //                 if(data.response == data.correctAnswer ){
+    //                     accuracy = 1; 
+    //                 }; 
+
+    //                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
+    //             } 
+    //         },
+    //         {
+    //             type: jsPsychHtmlKeyboardResponse,
+    //             stimulus: function() {
+    //                 var feedback_text = incorrectFeedbackText;
+    //                 var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
+    //                 if (last_resp_acc == 1) {
+    //                     feedback_text = correctFeedbackText;
+    //                 }
+    //                 return feedback_text;
+    //             },
+    //             choices: "NO_KEYS",
+    //             trial_duration: 1000
+    //         }
+    //     ],
+    //     timeline_variables: practiceStimuliList,
+    //     randomize_order: false
+    // }
+    // for(var i=0; i<exp_words.length; i++){
+    //     //currentWord = hVt_words[i];
+    //     noOfPractice = practiceStimuliList.length; // assuming no of practice is even
+    //     firstBlockOfPractice = Math.floor(noOfPractice/2);
+
+    //         for (var k=0; k<noOfPractice; k++){
+    //                 /**	Plays the sound **/
+    //                 currentStimulus = practiceStimuliList[k];
+    //                 practice_block.push(
+    //                     {
+    //                         type: jsPsychAudioKeyboardResponse, 
+    //                         stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
+    //                         prompt: '<img src="img/sound.jpg" height="200" width="200">', 
+    //                         choices: "NO_KEYS", 
+    //                         trial_duration: 2200, 
+    //                     }
+    //                 );
+    //                 practice_block.push(
+    //                     {
+    //                         type: jsPsychHtmlButtonResponse, 
+    //                         stimulus: question, 
+    //                         choices: [currentStimulus.textOption_0,currentStimulus.textOption_1], 
+    //                         data: {phase: 'practice', 
+    //                                 word: currentStimulus.word, 
+    //                                 carrier: currentStimulus.carrier,
+    //                                 block: block,
+    //                                 wordAccent: currentStimulus.wordAccent,
+    //                                 wordAccentStep: currentStimulus.wordAccentStep, 
+    //                                 carrierAccent: currentStimulus.carrierAccent,
+    //                                 carrierAccentStep: currentStimulus.carrierAccentStep, 
+    //                                 option_0: currentStimulus.option_0, 
+    //                                 option_1: currentStimulus.option_1, 
+    //                                 sound: currentStimulus.sound,
+    //                                 correctAnswer: currentStimulus.correctAnswer
+    //                             },
+    //                         on_finish: function(data){
+    //                             var answer = "";
+    //                             var accuracy = 0;
+    //                             if(data.response == 0){
+    //                                 answer = data.option_0;
+    //                             }else if(data.response == 0){
+    //                                 answer = data.option_1;
+    //                             };
+    //                             if(data.response == data.correctAnswer ){
+    //                                 accuracy = 1; 
+    //                                 noOfCorrectPractice++;
+    //                             }; 
+
+    //                             jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy, noOfCorrectPractice:noOfCorrectPractice});  
+    //                         } 
+    //                     }
+    //                 );
+    //                 practice_block.push(
+    //                     {
+    //                     type: jsPsychHtmlKeyboardResponse,
+    //                     stimulus: function() {
+    //                         var feedback_text = incorrectFeedbackText;
+    //                         var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
+    //                         if (last_resp_acc == 1) {
+    //                             feedback_text = correctFeedbackText;
+    //                         }
+    //                         return feedback_text;
+    //                     },
+    //                     choices: "NO_KEYS",
+    //                     trial_duration: 1000
+    //                 });
+
+    //         };
+
+    // swapping button locations every set
+    // practice_block.push(
+    //     {
+    //         type: jsPsychInstructions, 
+    //         pages: [ buttonSwapText ], 
+    //         show_clickable_nav: true,
+    //         button_label: "Next",
+    //     }
+    // );
+    // for (var k=firstBlockOfPractice; k<noOfPractice; k++){
+    //     /**	Plays the sound **/
+    //     currentStimulus = practiceStimuliList[k];
+    //     practice_block.push(
+    //         {
+    //             type: jsPsychAudioKeyboardResponse, 
+    //             stimulus: 'sound/'+ currentStimulus.sound + '.wav', 
+    //             prompt: '<img src="img/sound.jpg" height="200" width="200">', 
+    //             choices: "NO_KEYS", 
+    //             trial_duration: 2200, 
+    //         }
+    //     );
+    //     practice_block.push(
+    //         {
+    //             type: jsPsychHtmlButtonResponse, 
+    //             stimulus: question, 
+    //             choices: [currentStimulus.textOption_1,currentStimulus.textOption_0], 
+    //             data: {phase: 'practice', 
+    //                     word: currentStimulus.word, 
+    //                     carrier: currentStimulus.carrier,
+    //                     block: block,
+    //                     wordAccent: currentStimulus.wordAccent,
+    //                     wordAccentStep: currentStimulus.wordAccentStep, 
+    //                     carrierAccent: currentStimulus.carrierAccent,
+    //                     carrierAccentStep: currentStimulus.carrierAccentStep, 
+    //                     option_0: currentStimulus.option_1, 
+    //                     option_1: currentStimulus.option_0, 
+    //                     sound: currentStimulus.sound,
+    //                     correctAnswer: currentStimulus.correctAnswer
+    //                 },
+    //             on_finish: function(data){
+    //                 var answer = "";
+    //                 var accuracy = 0;
+    //                 if(data.response == 0){
+    //                     answer = data.option_0;
+    //                 }else if(data.response == 1){
+    //                     answer = data.option_1;
+    //                 };
+    //                 if(data.correctAnswer == data.button_pressed){
+    //                     accuracy = 1; 
+    //                 }; 
+    //                 jsPsych.data.addDataToLastTrial({answer: answer, accuracy: accuracy});  
+    //             } 
+    //         }
+
+    //     );
+    //     practice_block.push(
+    //         {
+    //         type: 'html-keyboard-response',
+    //         stimulus: function() {
+    //             var feedback_text = '<span style="color:red;font-size:30px;">Incorrect.</span>';
+    //             var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
+    //             if (last_resp_acc == 1) {
+    //                 feedback_text = '<span style="color:green;font-size:30px;">Correct!</span>'
+    //             }
+    //             return feedback_text;
+    //         },
+    //         choices: "NO_KEYS",
+    //         trial_duration: 2000
+    //     });
+    // };
+    //}
 
 
-/* save data function */
+    /*********************************************************************************/
+    /************************** User defined functions *******************************/
+    /*********************************************************************************/
 
-function saveData(filename, filedata){
-    $.ajax({
-        type:'post', 
-        cache: false, 
-        url: 'save_data.php', // this is the path to the above PHP script 
-        data: {filename: filename, filedata: filedata} 
-    });
-};
+    /**	This reads .txt  files and stores them in a variable **/
+    function txtJSON(txt) {
+        var text = '';
+        var lines = txt.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            text = text + lines[i];
+        }
+        return text;
+    };
 
-/**	This function plays the sound in the sound check **/
-function playSound(){
-	var x = document.getElementById("testAudio");
-	x.play();
-}
-
-
-/* time stamp function, format YYYYMMDDhhmmss*/
-function stamp(){
-    var dt = new Date(); 
-    var year = dt.getFullYear(); 
-    var month = ((dt.getMonth()+1)<10?'0':'') + (dt.getMonth()+1); 
-    var day = (dt.getDate()<10?'0':'') + dt.getDate(); 
-    var hour = (dt.getHours()<10?'0':'') + dt.getHours(); 
-    var minute = (dt.getMinutes()<10?'0':'') + dt.getMinutes(); 
-    var second = (dt.getSeconds()<10?'0':'') + dt.getSeconds(); 
-    var stamp = year +''+ month +''+ day +''+ hour +''+ minute +''+ second ; 
-    return stamp;
-};
-
-/** This function is called when the experiment finishes. Add a thank you message, 
-	debriefing or direct participants somewhere else (e.g. back to prolific or mturk) 
-    \
-**/
-function finish() {
-    DOM_target = document.querySelector('#jspsych-content'); 
-    DOM_target.innerHTML = finishText; 
-    jsPsych.pluginAPI.cancelAllKeyboardResponses(); 
-    jsPsych.pluginAPI.clearAllTimeouts();
-}; 
-
-/*********************************************************************************/
-/******************** Make timeline like flow in Psychopy ************************/
-/*********************************************************************************/
-
-/** This creates a variable for the timeline **/
-var timeline = [];
-
-/**	List your blocks here in the order you want them to appear
-	follow the same format as for the current blocks.
-**/
-
-//timeline = timeline.concat(sound_test);
-timeline = timeline.concat(participantID_block);
-timeline = timeline.concat(instructions_block);
-timeline = timeline.concat(practice_block);
-timeline = timeline.concat(instructionsAfterPractice_block);
-timeline = timeline.concat(exp_block);
-//timeline = timeline.concat(instructionsBeforeSurvey_block);
-
-/*********************************************************************************/
-/******************************** Run jsPsych ************************************/
-/*********************************************************************************/
-
-/** This code initiates the experiment and specifies what happens
-		- After each trial (on_data_update)
-		- At the end of the experiment
-**/
+    /**	This reads .csv  files and stores them in a variable **/
+    //var csv is the CSV file with headers
+    function csvJSON(csv) {
+        var lines = csv.split(/\r\n|\n/);
+        var result = [];
+        var headers = lines[0].split(',');
+        var headers = lines[0].split(',');
+        var headers = lines[0].split(',');
+        // TODO should check for empty lines at end
+        for (var i = 1; i < (lines.length); i++) {
+            var obj = {};
+            var currentline = lines[i].split(',');
+            for (var j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentline[j];
+            }
+            result.push(obj);
+        }
+        return result; //JavaScript object
+        //return JSON.stringify(result); //JSON
+    };
 
 
-jsPsych.run(timeline);
-//jsPsych.simulate(timeline);
+    /* save data function */
+
+    function saveData(filename, filedata) {
+        $.ajax({
+            type: 'post',
+            cache: false,
+            url: 'save_data.php', // this is the path to the above PHP script 
+            data: { filename: filename, filedata: filedata }
+        });
+    };
+
+    /**	This function plays the sound in the sound check **/
+    function playSound() {
+        var x = document.getElementById("testAudio");
+        x.play();
+    }
+
+
+    /* time stamp function, format YYYYMMDDhhmmss*/
+    function stamp() {
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var month = ((dt.getMonth() + 1) < 10 ? '0' : '') + (dt.getMonth() + 1);
+        var day = (dt.getDate() < 10 ? '0' : '') + dt.getDate();
+        var hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours();
+        var minute = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes();
+        var second = (dt.getSeconds() < 10 ? '0' : '') + dt.getSeconds();
+        var stamp = year + '' + month + '' + day + '' + hour + '' + minute + '' + second;
+        return stamp;
+    };
+
+    /** This function is called when the experiment finishes. Add a thank you message, 
+        debriefing or direct participants somewhere else (e.g. back to prolific or mturk) 
+        \
+    **/
+    function finish() {
+        DOM_target = document.querySelector('#jspsych-content');
+        DOM_target.innerHTML = finishText;
+        jsPsych.pluginAPI.cancelAllKeyboardResponses();
+        jsPsych.pluginAPI.clearAllTimeouts();
+    };
+
+    /*********************************************************************************/
+    /******************** Make timeline like flow in Psychopy ************************/
+    /*********************************************************************************/
+
+    /** This creates a variable for the timeline **/
+    var timeline = [];
+
+    /**	List your blocks here in the order you want them to appear
+        follow the same format as for the current blocks.
+    **/
+
+    //timeline = timeline.concat(sound_test);
+    timeline = timeline.concat(participantID_block);
+    timeline = timeline.concat(instructions_block);
+    timeline = timeline.concat(practice_block);
+    timeline = timeline.concat(instructionsAfterPractice_block);
+    timeline = timeline.concat(exp_block);
+    //timeline = timeline.concat(instructionsBeforeSurvey_block);
+
+    /*********************************************************************************/
+    /******************************** Run jsPsych ************************************/
+    /*********************************************************************************/
+
+    /** This code initiates the experiment and specifies what happens
+            - After each trial (on_data_update)
+            - At the end of the experiment
+    **/
+
+
+    jsPsych.run(timeline);
+    //jsPsych.simulate(timeline);
 
 </script>
+
 </html>
