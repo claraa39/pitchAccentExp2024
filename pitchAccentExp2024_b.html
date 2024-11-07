@@ -108,12 +108,12 @@ participantID = '';
 practiceStimuliList = '';
 stimuliList = '';
 
-instructionsAfterPractice = '<p style="text-align: center;">それでは本番をはじめます。 ここまでで分からないことがあれば、おたずねください。 <br>音声は一度だけ聞こえてきます。本番では、正解は特にありません。<br>曖昧な音声もありますので、深く考えずに思いついた単語をお答えください。<br>始めるには「Next」のボタンをクリックしてください。<\p>';
-practiceInstructions = '<h1>練習</h1><br/><p style="text-align: center;">それではまず練習です。<br>始めるには「Next」のボタンをクリックしてください。</p>' ;
-question = '<h1>どちらの単語が聞こえましたか。</h1>';
-question_continue = '<h1>練習をもう一度行いますか。</h1>';
+    instructionsAfterPractice = '<p style="text-align: center;">The formal test starts from here. If you have any question, please do not heasitate to ask. <br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
+    question = '<h1>Which word did you hear?</h1>';
+    question_continue = '<h1>Practice continues</h1>';
 buttonSwapText = '<p style="text-align: center;">ボタンの位置が入れ替わります。先に進むには、「Next」のボタンをクリックしてください。<br>休憩を取っていただいてもかまいません。</p>';
-finishText = '<p style="text-align: center;">これで実験はすべて終了です。ご協力ありがとうございました。 </p><br/>'; 
+    finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
 correctFeedbackText = '<span style="color:green;font-size:30px;">正解です。</span>'
 incorrectFeedbackText = '<span style="color:red;font-size:30px;">正解は</span>'
@@ -131,7 +131,7 @@ noOfCorrectPractice = 0;
 $.ajax({
     type: "GET", 
     async: false, 
-    url: "configFiles/fcnf_instructions.txt", 
+        url: "configFiles/consent_1.txt",
     dataType: "text", 
     success: function(txt) {inst=txtJSON(txt);}
 });
