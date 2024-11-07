@@ -480,10 +480,10 @@
             wordAccentStep: jsPsych.timelineVariable('wordAccentStep'),
             carrierAccent: jsPsych.timelineVariable('carrierAccent'),
             carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'),
-            textOption_0: jsPsych.timelineVariable('textOption_0'),
-            textOption_1: jsPsych.timelineVariable('textOption_1'),
-            textOption_2: jsPsych.timelineVariable('textOption_2'),
-            textOption_3: jsPsych.timelineVariable('textOption_3'),
+            option_0: jsPsych.timelineVariable('textOption_0'),
+            option_1: jsPsych.timelineVariable('textOption_1'),
+            option_2: jsPsych.timelineVariable('textOption_2'),
+            option_3: jsPsych.timelineVariable('textOption_3'),
             sound: jsPsych.timelineVariable('sound'),
             correctAnswer: jsPsych.timelineVariable('correctAnswer'),
             correctText: jsPsych.timelineVariable('correctText')
@@ -536,18 +536,18 @@
     }
 
     var prac_procedure_1 = {
-        timeline: [practice_sound, practice_question, practice_feedback],
+        timeline: [practice_sound, practice_question],
         timeline_variables: practiceStimuliList.slice(0, 4),
         randomize_order: true
     };
     var prac_procedure_2 = {
-        timeline: [practice_sound, practice_question, practice_feedback],
+        timeline: [practice_sound, practice_question],
         timeline_variables: practiceStimuliList.slice(4, 8),
         randomize_order: true
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1, buttonSwapInstructions, prac_procedure_2],
+        timeline: [prac_procedure_1, prac_procedure_2],
         randomize_order: false
     };
 
@@ -555,7 +555,7 @@
 
 
     var correctLoop_node = {
-        timeline: [practice_set, buttonSwapInstructions],
+        timeline: [practice_set],
         loop_function: function () {
             return false;
         }
