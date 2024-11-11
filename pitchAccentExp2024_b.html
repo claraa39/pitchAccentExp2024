@@ -148,11 +148,12 @@
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<p style="text-align: center;">The formal test starts from here. If you have any question, please do not heasitate to ask. <br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    instructionsAfterPractice = '<h1>The formal test starts from here.</h1><p style="text-align: center;">If you have any question, please do not heasitate to ask. <br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
     buttonSwapText = '<p style="text-align: center;">The button positions will be changed.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
+    buttonChangeText = '<p style="text-align: center;">The buttons will be changed.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
     finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
     correctFeedbackText = '<span style="color:green;font-size:30px;">Correct</span>'
@@ -183,7 +184,7 @@
     $.ajax({
         type: "GET",
         async: false,
-        url: "configFiles/file_names.csv",
+        url: "configFiles/expF0Stimuli.csv",
         dataType: "text",
         success: function (csv) { stimuliList = csvJSON(csv) }
     });
@@ -299,14 +300,6 @@
     /*********************************************************************************/
 
 
-
-    /** This randomizes the stimuli in stimuliList and stores them in a variable called
-        'exp_stimuli'.
-    
-    **/
-
-
-
     /** This creates the variable that all the trials will be stored in. To run the task,
         push this to the timeline
     **/
@@ -335,9 +328,10 @@
         // );
         for (var j = 0; j < noOfRepetitions; j++) {
             block = j + 1;
-            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
+            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv
             for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
+                console.log(currentStimulus);
                 /**	Plays the sound **/
                 exp_block.push(
                     {
@@ -375,8 +369,7 @@
                                 answer = data.option_2;
                             } else if (data.response == 3) {
                                 answer = data.option_3;
-                            };
-                            console.log(data.sound);
+                            };                          
                             jsPsych.data.addDataToLastTrial({ answer: answer });
                         }
                     }
@@ -397,7 +390,7 @@
             block = j + noOfRepetitions + 1;
             for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
-
+                console.log(currentStimulus);
                 var options = shuffleArray([currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2]);
                 /**	Plays the sound **/
                 exp_block.push(
@@ -457,9 +450,9 @@
         button_label: "Next",
     };
 
-    var buttonSwapInstructions = {
+    var buttonChangeInstructions = {
         type: jsPsychInstructions,
-        pages: [buttonSwapText],
+        pages: [buttonChangeText],
         show_clickable_nav: true,
         button_label: "Next",
     }
@@ -472,7 +465,7 @@
         },
         prompt: '<img src="img/sound.jpg" height="200" width="200">',
         choices: "NO_KEYS",
-        trial_duration: 2200
+        trial_duration: 2000
     }
     var practice_question = {
         type: jsPsychHtmlButtonResponse,
@@ -551,7 +544,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1, buttonSwapInstructions],//, prac_procedure_2],
+        timeline: [prac_procedure_1, buttonChangeInstructions],//, prac_procedure_2],
         randomize_order: false
     };
 
