@@ -30,4 +30,4 @@
 
 <p id = "consentForm"><strong>By clicking next, you acknowledge that you have read this form and decided that you will participate in the experiment described above. Its general purpose, procedure, possible risks and benefits have been explained to your satisfaction.</strong></p>		 
 
-<p id = "consentForm">If you have further questions about this project, please contact the PhD student Clara Zhang (clara.zhang at auckland.ac.nz). </p>
+<p id = "consentForm">If you have further questions about this project, please contact the PhD student Clara Zhang (clara.zhang@auckland.ac.nz). </p>
