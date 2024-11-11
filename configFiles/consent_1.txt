@@ -1,11 +1,11 @@
-<h1>Understanding te reo Māori sounds in an acoustically varied world</h1>
+<h1>Relationship between pitch and vowel perception in noise</h1>
 <h2>Consent form</h2>
 
 <h3 id = "consentForm">Invitation to Participate and Description of Project </h3>
 <p id = "consentForm">Hello, we are a research team based at the University of Auckland and firstly we would like to thank you for expressing your interest in participating our study.</p>
 
 <h3 id = "consentForm">Purpose of research</h3>
-<p id = "consentForm">The aim of this project is to investigate the effect of fundamental frequency on speech perception of non-native listeners in noise. </p> 
+<p id = "consentForm">The aim of this project is to investigate the effect of pitch on vowel perception of non-native listeners in noise. </p> 
 
 <h3 id = "consentForm">Description of the Procedure</h3>
 <ol id = "consentForm">
