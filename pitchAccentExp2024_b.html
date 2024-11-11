@@ -183,7 +183,7 @@
     $.ajax({
         type: "GET",
         async: false,
-        url: "configFiles/expStimuli.csv",
+        url: "configFiles/file_names.csv",
         dataType: "text",
         success: function (csv) { stimuliList = csvJSON(csv) }
     });
@@ -352,18 +352,17 @@
                     {
                         type: jsPsychHtmlButtonResponse,
                         stimulus: question,
-                        choices: [currentStimulus.textOption_0, currentStimulus.textOption_1],
+                        choices: [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3],
                         data: {
                             phase: 'iden_exp',
                             word: currentStimulus.word,
-                            carrier: currentStimulus.carrier,
+                            noise: currentStimulus.noise,
                             block: block,
-                            wordAccent: currentStimulus.wordAccent,
-                            wordAccentStep: currentStimulus.wordAccentStep,
-                            carrierAccent: currentStimulus.carrierAccent,
-                            carrierAccentStep: currentStimulus.carrierAccentStep,
-                            option_0: currentStimulus.option_0,
-                            option_1: currentStimulus.option_1,
+                            F0step: currentStimulus.F0step,
+                            option_0: currentStimulus.textOption_0,
+                            option_1: currentStimulus.textOption_1,
+                            option_2: currentStimulus.textOption_2,
+                            option_3: currentStimulus.textOption_3,
                             sound: currentStimulus.sound
                         },
                         on_finish: function (data) {
@@ -372,7 +371,12 @@
                                 answer = data.option_0;
                             } else if (data.response == 1) {
                                 answer = data.option_1;
+                            } else if (data.response == 2) {
+                                answer = data.option_2;
+                            } else if (data.response == 3) {
+                                answer = data.option_3;
                             };
+                            console.log(data.sound);
                             jsPsych.data.addDataToLastTrial({ answer: answer });
                         }
                     }
@@ -393,6 +397,7 @@
             block = j + noOfRepetitions + 1;
             for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
+
                 var options = shuffleArray([currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2]);
                 /**	Plays the sound **/
                 exp_block.push(
@@ -412,16 +417,13 @@
                         data: {
                             phase: 'iden_exp',
                             word: currentStimulus.word,
-                            carrier: currentStimulus.carrier,
+                            noise: currentStimulus.noise,
                             block: block,
-                            wordAccent: currentStimulus.wordAccent,
-                            wordAccentStep: currentStimulus.wordAccentStep,
-                            carrierAccent: currentStimulus.carrierAccent,
-                            carrierAccentStep: currentStimulus.carrierAccentStep,
-                            option_0: options[0],
-                            option_1: options[1],
-                            option_2: options[2],
-                            option_3: options[3],
+                            F0step: currentStimulus.F0step,
+                            option_0: currentStimulus.textOption_1,
+                            option_1: currentStimulus.textOption_0,
+                            option_2: currentStimulus.textOption_3,
+                            option_3: currentStimulus.textOption_2,
                             sound: currentStimulus.sound
                         },
                         on_finish: function (data) {
@@ -430,7 +432,12 @@
                                 answer = data.option_1; //answers swapped
                             } else if (data.response == 1) {
                                 answer = data.option_0;
+                            } else if (data.response == 2) {
+                                answer = data.option_3;
+                            } else if (data.response == 3) {
+                                answer = data.option_2;
                             };
+
                             jsPsych.data.addDataToLastTrial({ answer: answer });
                         }
                     }
@@ -544,7 +551,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1, buttonSwapInstructions, prac_procedure_2],
+        timeline: [prac_procedure_1, buttonSwapInstructions],//, prac_procedure_2],
         randomize_order: false
     };
 
