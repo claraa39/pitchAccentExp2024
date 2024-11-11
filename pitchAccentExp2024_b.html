@@ -155,9 +155,9 @@
     buttonSwapText = '<p style="text-align: center;">ボタンの位置が入れ替わります。先に進むには、「Next」のボタンをクリックしてください。<br>休憩を取っていただいてもかまいません。</p>';
     finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
-    correctFeedbackText = '<span style="color:green;font-size:30px;">正解です。</span>'
-    incorrectFeedbackText = '<span style="color:red;font-size:30px;">正解は</span>'
-    incorrectFeedbackText2 = '<span style="color:red;font-size:30px;">です。</span>'
+    correctFeedbackText = '<span style="color:green;font-size:30px;">Correct</span>'
+    incorrectFeedbackText = '<span style="color:red;font-size:30px;">The correct answer should be</span>'
+    //incorrectFeedbackText2 = '<span style="color:red;font-size:30px;">です。</span>'
 
     noOfCorrectPractice = 0;
 
@@ -474,19 +474,16 @@
         data: {
             phase: 'practice',
             word: jsPsych.timelineVariable('word'),
-            carrier: jsPsych.timelineVariable('carrier'),
+            noise: jsPsych.timelineVariable('noise'),
             block: "practice",
-            wordAccent: jsPsych.timelineVariable('wordAccent'),
-            wordAccentStep: jsPsych.timelineVariable('wordAccentStep'),
-            carrierAccent: jsPsych.timelineVariable('carrierAccent'),
-            carrierAccentStep: jsPsych.timelineVariable('carrierAccentStep'),
+            F0step: jsPsych.timelineVariable('F0step'),
             option_0: jsPsych.timelineVariable('textOption_0'),
             option_1: jsPsych.timelineVariable('textOption_1'),
             option_2: jsPsych.timelineVariable('textOption_2'),
             option_3: jsPsych.timelineVariable('textOption_3'),
             sound: jsPsych.timelineVariable('sound'),
             correctAnswer: jsPsych.timelineVariable('correctAnswer'),
-            correctText: jsPsych.timelineVariable('correctText')
+            //correctText: jsPsych.timelineVariable('correctText')
         },
         on_finish: function (data) {
             var answer = "";
@@ -516,7 +513,7 @@
     var practice_feedback = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function () {
-            var feedback_text = incorrectFeedbackText + '<span style="color:red;font-size:30px;">' + jsPsych.data.getLastTrialData().values()[0].correctText + '</span>' + incorrectFeedbackText2;
+            var feedback_text = incorrectFeedbackText + '<span style="color:red;font-size:30px;">' + jsPsych.data.getLastTrialData().values()[0].word + '</span>';
             var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
             if (last_resp_acc == 1) {
                 feedback_text = correctFeedbackText;
@@ -536,12 +533,12 @@
     }
 
     var prac_procedure_1 = {
-        timeline: [practice_sound, practice_question],
+        timeline: [practice_sound, practice_question, practice_feedback],
         timeline_variables: practiceStimuliList.slice(0, 4),
         randomize_order: true
     };
     var prac_procedure_2 = {
-        timeline: [practice_sound, practice_question],
+        timeline: [practice_sound, practice_question, practice_feedback],
         timeline_variables: practiceStimuliList.slice(4, 8),
         randomize_order: true
     };
