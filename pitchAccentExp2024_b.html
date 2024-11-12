@@ -143,12 +143,12 @@
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
     exp_words = ['hana']; // Variable for storing the input data (csv)
-    noOfRepetitions = 1; // will be multiplied by 2 due to button swapping
+    noOfRepetitions = 1; 
     participantID = '';
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<h1>The formal test starts from here.</h1><p style="text-align: center;">If you have any question, please do not heasitate to ask. <br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
@@ -314,6 +314,17 @@
     
         3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
     **/
+   const totalTrails = exp_words.length * noOfRepetitions * stimuliList.length;
+   let trailCounter = 0;
+
+   // Break screen after half trials
+   const breakScreen = {
+        type: jsPsychInstructions,
+        pages: ['<h1>Break Time!</h1><p style="text-align: center;">You are half way through the experiment. Please take a break if you need to.<br>Press「Next」to continue.</p>'],
+        show_clickable_nav: true,
+        button_label: "Next",
+    }
+
     for (var i = 0; i < exp_words.length; i++) {
         currentSetNo = i + 1;
         //currentWord = exp_words[i];
@@ -361,6 +372,7 @@
                         },
                         on_finish: function (data) {
                             var answer = "";
+                            var accuracy = 0;
                             if (data.response == 0) {
                                 answer = data.option_0;
                             } else if (data.response == 1) {
@@ -369,74 +381,21 @@
                                 answer = data.option_2;
                             } else if (data.response == 3) {
                                 answer = data.option_3;
-                            };                          
-                            jsPsych.data.addDataToLastTrial({ answer: answer });
+                            };
+                            if (answer == data.word) {
+                                accuracy = 1;
+                            }            
+                            jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
                         }
                     }
                 );
+                trailCounter++;
+                // Insert break screen after half trials
+                if (trailCounter == Math.floor(totalTrails / 2)) {
+                    exp_block.push(breakScreen);
+                }
             };
         };
-        // swapping button locations every set
-        /* exp_block.push(
-            {
-                type: jsPsychInstructions,
-                pages: [buttonSwapText],
-                show_clickable_nav: true,
-                button_label: "Next",
-            }
-        );
-        for (var j = 0; j < noOfRepetitions; j++) {
-            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv
-            block = j + noOfRepetitions + 1;
-            for (var k = 0; k < exp_stimuli.length; k++) {
-                currentStimulus = exp_stimuli[k];
-                console.log(currentStimulus);
-                var options = shuffleArray([currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2]);
-                //	Plays the sound
-                exp_block.push(
-                    {
-                        type: jsPsychAudioKeyboardResponse,
-                        stimulus: 'sound/' + currentStimulus.sound + '.wav',
-                        prompt: '<img src="img/sound.jpg" height="200" width="200">',
-                        choices: "NO_KEYS",
-                        trial_duration: 2000,
-                    }
-                );
-                exp_block.push(
-                    {
-                        type: jsPsychHtmlButtonResponse,
-                        stimulus: question,
-                        choices: options, //answers swapped
-                        data: {
-                            phase: 'iden_exp',
-                            word: currentStimulus.word,
-                            noise: currentStimulus.noise,
-                            block: block,
-                            F0step: currentStimulus.F0step,
-                            option_0: currentStimulus.textOption_1,
-                            option_1: currentStimulus.textOption_0,
-                            option_2: currentStimulus.textOption_3,
-                            option_3: currentStimulus.textOption_2,
-                            sound: currentStimulus.sound
-                        },
-                        on_finish: function (data) {
-                            var answer = "";
-                            if (data.response == 0) { //first button, which is option 2
-                                answer = data.option_1; //answers swapped
-                            } else if (data.response == 1) {
-                                answer = data.option_0;
-                            } else if (data.response == 2) {
-                                answer = data.option_3;
-                            } else if (data.response == 3) {
-                                answer = data.option_2;
-                            };
-
-                            jsPsych.data.addDataToLastTrial({ answer: answer });
-                        }
-                    }
-                );
-            };
-        };*/
     }
 
     /*********************************************************************************/
@@ -482,7 +441,7 @@
             option_2: jsPsych.timelineVariable('textOption_2'),
             option_3: jsPsych.timelineVariable('textOption_3'),
             sound: jsPsych.timelineVariable('sound'),
-            correctAnswer: jsPsych.timelineVariable('correctAnswer'),
+            //correctAnswer: jsPsych.timelineVariable('correctAnswer'),
             //correctText: jsPsych.timelineVariable('correctText')
         },
         on_finish: function (data) {
@@ -499,7 +458,7 @@
             else if (data.response == 3) {
                 answer = data.option_3;
             };
-            if (data.response == data.correctAnswer) {
+            if (answer == data.word) {
                 accuracy = 1;
                 noOfCorrectPractice++
                 console.log(noOfCorrectPractice)
@@ -544,7 +503,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1, buttonChangeInstructions],//, prac_procedure_2],
+        timeline: [prac_procedure_1, buttonChangeInstructions, prac_procedure_2],
         randomize_order: false
     };
 
