@@ -377,7 +377,7 @@
             };
         };
         // swapping button locations every set
-        exp_block.push(
+        /* exp_block.push(
             {
                 type: jsPsychInstructions,
                 pages: [buttonSwapText],
@@ -386,13 +386,13 @@
             }
         );
         for (var j = 0; j < noOfRepetitions; j++) {
-            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv - only has hanaA for now
+            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv
             block = j + noOfRepetitions + 1;
             for (var k = 0; k < exp_stimuli.length; k++) {
                 currentStimulus = exp_stimuli[k];
                 console.log(currentStimulus);
                 var options = shuffleArray([currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2]);
-                /**	Plays the sound **/
+                //	Plays the sound
                 exp_block.push(
                     {
                         type: jsPsychAudioKeyboardResponse,
@@ -436,7 +436,7 @@
                     }
                 );
             };
-        };
+        };*/
     }
 
     /*********************************************************************************/
