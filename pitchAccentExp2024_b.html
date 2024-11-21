@@ -142,7 +142,7 @@
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
-    exp_words = ['hana']; // Variable for storing the input data (csv)
+    exp_words = ['head']; // Variable for storing the input data (csv)
     noOfRepetitions = 4;
     participantID = '';
     practiceStimuliList = '';
@@ -152,7 +152,7 @@
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
-    buttonSwapText = '<p style="text-align: center;">The button positions will be changed.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
+    buttonSwapText = '<p style="text-align: center;">The button positions will be swapped.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
     buttonChangeText = '<p style="text-align: center;">The buttons will be changed.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
     finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
@@ -184,7 +184,7 @@
     $.ajax({
         type: "GET",
         async: false,
-        url: "configFiles/expF0Stimuli.csv",
+        url: "configFiles/test.csv", //expF0Stimuli.csv,
         dataType: "text",
         success: function (csv) { stimuliList = csvJSON(csv) }
     });
@@ -314,89 +314,68 @@
     
         3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
     **/
-    const totalTrails = exp_words.length * noOfRepetitions * stimuliList.length;
-    let trailCounter = 0;
 
-    // Break screen after half trials
-    /*const breakScreen = {
-         type: jsPsychInstructions,
-         pages: ['<h1>Break Time!</h1><p style="text-align: center;">You are half way through the experiment. Please take a break if you need to.<br>Press「Next」to continue.</p>'],
-         show_clickable_nav: true,
-         button_label: "Next",
-     } */
 
-    for (var i = 0; i < exp_words.length; i++) {
-        currentSetNo = i + 1;
-        //currentWord = exp_words[i];
-        // only need the below if doing multiple sets
-        // exp_block.push( 
-        //     {
-        //         type: jsPsychInstructions, 
-        //         pages: [ '<h1>Set ' + currentSetNo + '</h1><p style="text-align: center;">There are '+ totalSet + ' in total. Please click NEXT to proceed, take a break if you need to. </p>' ], 
-        //         show_clickable_nav: true,
-        //         button_label: "Next",
-        //     }
-        // );
-        for (var j = 0; j < noOfRepetitions; j++) {
-            block = j + 1;
-            exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv
-            for (var k = 0; k < exp_stimuli.length; k++) {
-                currentStimulus = exp_stimuli[k];
-                console.log(currentStimulus);
-                /**	Plays the sound **/
-                exp_block.push(
-                    {
-                        type: jsPsychAudioKeyboardResponse,
-                        stimulus: 'sound/' + currentStimulus.sound + '.wav',
-                        prompt: '<img src="img/sound.jpg" height="200" width="200">',
-                        choices: "NO_KEYS",
-                        trial_duration: 2000,
-                    }
-                );
-                exp_block.push(
-                    {
-                        type: jsPsychHtmlButtonResponse,
-                        stimulus: question,
-                        choices: [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3],
-                        data: {
-                            phase: 'iden_exp',
-                            word: currentStimulus.word,
-                            noise: currentStimulus.noise,
-                            block: block,
-                            F0step: currentStimulus.F0step,
-                            option_0: currentStimulus.textOption_0,
-                            option_1: currentStimulus.textOption_1,
-                            option_2: currentStimulus.textOption_2,
-                            option_3: currentStimulus.textOption_3,
-                            sound: currentStimulus.sound
-                        },
-                        on_finish: function (data) {
-                            var answer = "";
-                            var accuracy = 0;
-                            if (data.response == 0) {
-                                answer = data.option_0;
-                            } else if (data.response == 1) {
-                                answer = data.option_1;
-                            } else if (data.response == 2) {
-                                answer = data.option_2;
-                            } else if (data.response == 3) {
-                                answer = data.option_3;
-                            };
-                            if (answer == data.word) {
-                                accuracy = 1;
-                            }
-                            jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
-                        }
-                    }
-                );
-                //trailCounter++;
-                // Insert break screen after half trials
-                //if (trailCounter == Math.floor(totalTrails / 2)) {
-                //  exp_block.push(breakScreen);
-                //}
-            };
+    for (var j = 0; j < noOfRepetitions; j++) {
+        block = j + 1;
+        exp_stimuli = jsPsych.randomization.shuffle(stimuliList); //stimuliList is from csv
+
+        for (var k = 0; k < exp_stimuli.length; k++) {
+            currentStimulus = exp_stimuli[k];
+            console.log(currentStimulus);
+
+            var buttonChoices = (j % 2 === 0)
+                ? [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3]
+                : [currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2];
+
+            //	Plays the sound
+            exp_block.push(
+                {
+                    type: jsPsychAudioKeyboardResponse,
+                    stimulus: 'sound/' + currentStimulus.sound + '.wav',
+                    prompt: '<img src="img/sound.jpg" height="200" width="200">',
+                    choices: "NO_KEYS",
+                    trial_duration: 1500,
+                });
+
+            // Button Response Block
+            exp_block.push({
+                type: jsPsychHtmlButtonResponse,
+                stimulus: question,
+                choices: buttonChoices,
+                data: {
+                    phase: 'iden_exp',
+                    word: currentStimulus.word,
+                    noise: currentStimulus.noise,
+                    block: block,
+                    F0step: currentStimulus.F0step,
+                    /*option_0: buttonChoices[0],
+                    option_1: buttonChoices[1],
+                    option_2: buttonChoices[2],
+                    option_3: buttonChoices[3],*/
+                    buttonChoices: buttonChoices,
+                    sound: currentStimulus.sound,
+                },
+                on_finish: function (data) {
+                    var buttonChoices = data.buttonChoices;
+                    var answer = buttonChoices[data.response];
+                    var accuracy = answer === data.word ? 1 : 0;
+                    jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
+                }
+
+            });
         };
+        // Swap button for each set
+        if (j < noOfRepetitions - 1) {
+            exp_block.push({
+                type: jsPsychInstructions,
+                pages: [buttonSwapText],
+                show_clickable_nav: true,
+                button_label: "Next",
+            });
+        }
     }
+
 
     /*********************************************************************************/
     /*************************** Define practice block *******************************/
@@ -424,7 +403,7 @@
         },
         prompt: '<img src="img/sound.jpg" height="200" width="200">',
         choices: "NO_KEYS",
-        trial_duration: 2000
+        trial_duration: 1500
     }
     var practice_question = {
         type: jsPsychHtmlButtonResponse,
@@ -503,7 +482,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1, buttonChangeInstructions, prac_procedure_2],
+        timeline: [prac_procedure_1], //buttonChangeInstructions, prac_procedure_2],
         randomize_order: false
     };
 
