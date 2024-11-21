@@ -143,7 +143,7 @@
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
     exp_words = ['hana']; // Variable for storing the input data (csv)
-    noOfRepetitions = 3; 
+    noOfRepetitions = 4;
     participantID = '';
     practiceStimuliList = '';
     stimuliList = '';
@@ -314,16 +314,16 @@
     
         3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
     **/
-   const totalTrails = exp_words.length * noOfRepetitions * stimuliList.length;
-   let trailCounter = 0;
+    const totalTrails = exp_words.length * noOfRepetitions * stimuliList.length;
+    let trailCounter = 0;
 
-   // Break screen after half trials
-   const breakScreen = {
-        type: jsPsychInstructions,
-        pages: ['<h1>Break Time!</h1><p style="text-align: center;">You are half way through the experiment. Please take a break if you need to.<br>Press「Next」to continue.</p>'],
-        show_clickable_nav: true,
-        button_label: "Next",
-    }
+    // Break screen after half trials
+    /*const breakScreen = {
+         type: jsPsychInstructions,
+         pages: ['<h1>Break Time!</h1><p style="text-align: center;">You are half way through the experiment. Please take a break if you need to.<br>Press「Next」to continue.</p>'],
+         show_clickable_nav: true,
+         button_label: "Next",
+     } */
 
     for (var i = 0; i < exp_words.length; i++) {
         currentSetNo = i + 1;
@@ -384,16 +384,16 @@
                             };
                             if (answer == data.word) {
                                 accuracy = 1;
-                            }            
+                            }
                             jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
                         }
                     }
                 );
-                trailCounter++;
+                //trailCounter++;
                 // Insert break screen after half trials
-                if (trailCounter == Math.floor(totalTrails / 2)) {
-                    exp_block.push(breakScreen);
-                }
+                //if (trailCounter == Math.floor(totalTrails / 2)) {
+                //  exp_block.push(breakScreen);
+                //}
             };
         };
     }
