@@ -37,6 +37,7 @@
     <script src="jspsych/plugin-categorize-html.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
+    
     <!-- Loads the css file with the standard formatting -->
     <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css">
     </link>
@@ -294,7 +295,6 @@
     // }
 
 
-
     /*********************************************************************************/
     /*************************** Define experiment block *******************************/
     /*********************************************************************************/
@@ -341,30 +341,59 @@
             // Button Response Block
             exp_block.push({
                 type: jsPsychHtmlButtonResponse,
-                stimulus: question,
-                choices: buttonChoices,
-                data: {
-                    phase: 'iden_exp',
-                    word: currentStimulus.word,
-                    noise: currentStimulus.noise,
-                    block: block,
-                    F0step: currentStimulus.F0step,
-                    /*option_0: buttonChoices[0],
-                    option_1: buttonChoices[1],
-                    option_2: buttonChoices[2],
-                    option_3: buttonChoices[3],*/
-                    buttonChoices: buttonChoices,
-                    sound: currentStimulus.sound,
-                },
-                on_finish: function (data) {
-                    var buttonChoices = data.buttonChoices;
-                    var answer = buttonChoices[data.response];
-                    var accuracy = answer === data.word ? 1 : 0;
-                    jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
-                }
+                stimulus: function () {
+                return `
+                    <div>
+                        ${question}
+                        <div style="margin: 20px auto; width: 500px;">
+                            <p style="text-align: center; margin-bottom: 10px;">Rate the difficulty level</p>
+                            <input type="range" id="difficulty-slider" min="1" max="10" value="5" step="1" 
+                                style="width: 100%;"
+                                onchange="jsPsych.data.addProperties({ response_slider: parseInt(this.value) })"
+                                oninput="jsPsych.data.addProperties({ response_slider: parseInt(this.value) })">
+                            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                <span>1</span><span>2</span><span>3</span><span>4</span>
+                                <span>5</span><span>6</span><span>7</span><span>8</span>
+                                <span>9</span><span>10</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                <span style="text-align: left; color: #666;">Difficult</span>
+                                <span style="text-align: right; color: #666;">Easy</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            choices: buttonChoices,
+            data: {
+                phase: 'iden_exp',
+                word: currentStimulus.word,
+                noise: currentStimulus.noise,
+                block: block,
+                F0step: currentStimulus.F0step,
+                buttonChoices: buttonChoices,
+                sound: currentStimulus.sound,
+            },
+            on_load: function () {
+                // Reset slider to default value (5) at trial start
+                document.getElementById("difficulty-slider").value = 5;
+                // Also reset the stored response_slider value
+                jsPsych.data.addProperties({ response_slider: 5 });
+            },
+            on_finish: function (data) {
+                var buttonChoices = data.buttonChoices;
+                var answer = buttonChoices[data.response];
+                var accuracy = answer === data.word ? 1 : 0;
+                var sliderValue = data.response_slider || 5; // Default to 5 if no slider movement
 
-            });
-        };
+                jsPsych.data.addDataToLastTrial({
+                    answer: answer, 
+                    accuracy: accuracy,
+                    difficulty: sliderValue
+                });
+            }
+        });
+    }
         // Swap button for each set
         if (j < noOfRepetitions - 1) {
             exp_block.push({
