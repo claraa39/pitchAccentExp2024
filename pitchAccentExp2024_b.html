@@ -437,44 +437,41 @@
     var practice_question = {
         type: jsPsychHtmlButtonResponse,
         stimulus: question,
-        choices: [jsPsych.timelineVariable('textOption_0'), jsPsych.timelineVariable('textOption_1'), jsPsych.timelineVariable('textOption_2'), jsPsych.timelineVariable('textOption_3')],
+        choices: [
+            jsPsych.timelineVariable('textOption_0'),
+            jsPsych.timelineVariable('textOption_1'),
+            jsPsych.timelineVariable('textOption_2'),
+            jsPsych.timelineVariable('textOption_3')
+        ],
         data: {
             phase: 'practice',
             word: jsPsych.timelineVariable('word'),
             noise: jsPsych.timelineVariable('noise'),
             block: "practice",
             F0step: jsPsych.timelineVariable('F0step'),
-            option_0: jsPsych.timelineVariable('textOption_0'),
-            option_1: jsPsych.timelineVariable('textOption_1'),
-            option_2: jsPsych.timelineVariable('textOption_2'),
-            option_3: jsPsych.timelineVariable('textOption_3'),
+            buttonChoices: [
+                jsPsych.timelineVariable('textOption_0'),
+                jsPsych.timelineVariable('textOption_1'),
+                jsPsych.timelineVariable('textOption_2'),
+                jsPsych.timelineVariable('textOption_3')
+            ],
             sound: jsPsych.timelineVariable('sound'),
-            //correctAnswer: jsPsych.timelineVariable('correctAnswer'),
-            //correctText: jsPsych.timelineVariable('correctText')
         },
         on_finish: function (data) {
-            var answer = "";
-            var accuracy = 0;
-            if (data.response == 0) {
-                answer = data.option_0;
-            } else if (data.response == 1) {
-                answer = data.option_1;
-            }
-            else if (data.response == 2) {
-                answer = data.option_2;
-            }
-            else if (data.response == 3) {
-                answer = data.option_3;
-            };
-            if (answer == data.word) {
-                accuracy = 1;
-                noOfCorrectPractice++
-                console.log(noOfCorrectPractice)
-            };
+            // Get selected answer from buttonChoices using response index
+            var answer = data.buttonChoices[data.response];
+            var accuracy = answer === data.word ? 1 : 0;
 
+            if (accuracy === 1) {
+                noOfCorrectPractice++;
+                console.log(noOfCorrectPractice);
+            }
+
+            // Add answer and accuracy to trial data
             jsPsych.data.addDataToLastTrial({ answer: answer, accuracy: accuracy });
         }
-    }
+    };
+
 
 
     var practice_feedback = {
@@ -511,7 +508,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1], //buttonChangeInstructions, prac_procedure_2],
+        timeline: [prac_procedure_1,buttonChangeInstructions, prac_procedure_2],
         randomize_order: false
     };
 
@@ -519,9 +516,17 @@
 
 
     var correctLoop_node = {
-        timeline: [practice_set],
-        loop_function: function () {
+        timeline: [practice_set,buttonChangeInstructions],
+        loop_function: function(){
+        console.log(noOfCorrectPractice)
+        if (noOfCorrectPractice < noOfCorrectPracticeToMoveOn) { 
+            noOfCorrectPractice = 0;
+            console.log("repeat")
+            return true;
+        }
+        else{
             return false;
+        }
         }
     }
 
