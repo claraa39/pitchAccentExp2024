@@ -139,7 +139,7 @@
     /*********************************************************************************/
     /****************************** Global Variables *********************************/
     /*********************************************************************************/
-    noOfCorrectPracticeToMoveOn = 1;
+    noOfCorrectPracticeToMoveOn = 7;
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
@@ -149,7 +149,7 @@
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br><span style="color: red;">Please also rate the difficulty of confirming the word you hear.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br><span style="color: red;">Please also use the slider to rate how closely the sound matches the word you select.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
@@ -350,9 +350,21 @@
                     return `
                         <div>
                             ${question}
+                            <div id="button-container" style="margin-top: 20px; text-align: center;">
+                                ${buttonChoices.map((choice, idx) =>
+                        `<button class="response-button jspsych-btn" id="button-${idx}" data-choice="${idx}" style="margin: 10px;
+                                                                                                                    padding: 20px 40px;
+                                                                                                                    font-size: 22px;
+                                                                                                                    border: 1px solid #ccc;
+                                                                                                                    border-radius: 8px;
+                                                                                                                    background-color: #ffffff;"> 
+                                        ${choice}
+                                    </button>`
+                    ).join("")}
+                            </div>
                             <div style="margin: 20px auto; width: 500px;">
-                                <p style="text-align: center; margin-bottom: 10px;">Rate the difficulty level</p>
-                                <input type="range" id="difficulty-slider" min="1" max="10" value="5" step="1" 
+                                <p style="text-align: center;margin-bottom: 10px; font-size: 18px; font-weight: bold;">How close does the sound match the word you select?</p>
+                                <input type="range" id="goodness-slider" min="1" max="10" value="5" step="1" 
                                     style="width: 100%;">
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
                                     <span>1</span><span>2</span><span>3</span><span>4</span>
@@ -360,29 +372,13 @@
                                     <span>9</span><span>10</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                    <span style="text-align: left; color: #666;">Difficult</span>
-                                    <span style="text-align: right; color: #666;">Easy</span>
+                                    <span style="text-align: left; color: #666;">Poor match</span>
+                                    <span style="text-align: right; color: #666;">Perfect match</span>
                                 </div>
                             </div>
-            
-                            <div id="button-container" style="margin-top: 20px; text-align: center;">
-                    ${buttonChoices.map((choice, idx) =>
-                        `<button class="response-button jspsych-btn" id="button-${idx}" data-choice="${idx}" 
-                    style="
-                        margin: 10px;
-                        padding: 20px 40px;
-                        font-size: 28px;
-                        border: 1px solid #ccc;
-                        border-radius: 8px;
-                        background-color: #ffffff;"> 
-                    ${choice}
-                </button>`
-                    ).join("")}
-                </div>
-
-                <div style="margin-top: 20px; text-align: right;">
-                    <button id="next-button" class="jspsych-btn" disabled>Next</button>
-                </div>
+                            <div style="margin-top: 20px; text-align: right;">
+                                <button id="next-button" class="jspsych-btn" disabled>Next</button>
+                            </div>
                         </div>
                     `;
                 },
@@ -400,7 +396,7 @@
                     let selectedAnswer = null;
 
                     const nextButton = document.getElementById("next-button");
-                    const slider = document.getElementById("difficulty-slider");
+                    const slider = document.getElementById("goodness-slider");
                     const responseButtons = document.querySelectorAll(".response-button");
 
                     // Add event listener to response buttons
