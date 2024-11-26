@@ -139,7 +139,7 @@
     /*********************************************************************************/
     /****************************** Global Variables *********************************/
     /*********************************************************************************/
-    noOfCorrectPracticeToMoveOn = 7;
+    noOfCorrectPracticeToMoveOn = 1;
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
@@ -185,7 +185,7 @@
     $.ajax({
         type: "GET",
         async: false,
-        url: "configFiles/test.csv", //expF0Stimuli.csv,
+        url: "configFiles/expF0Stimuli.csv", //test.csv,
         dataType: "text",
         success: function (csv) { stimuliList = csvJSON(csv) }
     });
@@ -314,7 +314,12 @@
     
         3 loops: randomise within 10-step continuum, swapping button locations, randomise of number of keywords - if needed
     **/
-
+    var exp_instructions = {
+        type: jsPsychInstructions,
+        pages: [question],
+        show_clickable_nav: true,
+        button_label: "Next",
+    };
 
     for (var j = 0; j < noOfRepetitions; j++) {
         block = j + 1;
@@ -340,31 +345,48 @@
 
             // Button Response Block
             exp_block.push({
-                type: jsPsychHtmlButtonResponse,
+                type: jsPsychHtmlKeyboardResponse, // Custom trial to include slider and buttons
                 stimulus: function () {
                     return `
-                    <div>
-                        ${question}
-                        <div style="margin: 20px auto; width: 500px;">
-                            <p style="text-align: center; margin-bottom: 10px;">Rate the difficulty level</p>
-                            <input type="range" id="difficulty-slider" min="1" max="10" value="5" step="1" 
-                                style="width: 100%;"
-                                onchange="jsPsych.data.addProperties({ response_slider: parseInt(this.value) })"
-                                oninput="jsPsych.data.addProperties({ response_slider: parseInt(this.value) })">
-                            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                <span>1</span><span>2</span><span>3</span><span>4</span>
-                                <span>5</span><span>6</span><span>7</span><span>8</span>
-                                <span>9</span><span>10</span>
+                        <div>
+                            ${question}
+                            <div style="margin: 20px auto; width: 500px;">
+                                <p style="text-align: center; margin-bottom: 10px;">Rate the difficulty level</p>
+                                <input type="range" id="difficulty-slider" min="1" max="10" value="5" step="1" 
+                                    style="width: 100%;">
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>1</span><span>2</span><span>3</span><span>4</span>
+                                    <span>5</span><span>6</span><span>7</span><span>8</span>
+                                    <span>9</span><span>10</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span style="text-align: left; color: #666;">Difficult</span>
+                                    <span style="text-align: right; color: #666;">Easy</span>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                <span style="text-align: left; color: #666;">Difficult</span>
-                                <span style="text-align: right; color: #666;">Easy</span>
-                            </div>
+            
+                            <div id="button-container" style="margin-top: 20px; text-align: center;">
+                    ${buttonChoices.map((choice, idx) =>
+                        `<button class="response-button jspsych-btn" id="button-${idx}" data-choice="${idx}" 
+                    style="
+                        margin: 10px;
+                        padding: 20px 40px;
+                        font-size: 28px;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        background-color: #ffffff;"> 
+                    ${choice}
+                </button>`
+                    ).join("")}
+                </div>
+
+                <div style="margin-top: 20px; text-align: right;">
+                    <button id="next-button" class="jspsych-btn" disabled>Next</button>
+                </div>
                         </div>
-                    </div>
-                `;
+                    `;
                 },
-                choices: buttonChoices,
+                choices: "NO_KEYS", // Disable automatic keyboard navigation
                 data: {
                     phase: 'iden_exp',
                     word: currentStimulus.word,
@@ -375,21 +397,43 @@
                     sound: currentStimulus.sound,
                 },
                 on_load: function () {
-                    // Reset slider to default value (5) at trial start
-                    document.getElementById("difficulty-slider").value = 5;
-                    // Also reset the stored response_slider value
-                    jsPsych.data.addProperties({ response_slider: 5 });
-                },
-                on_finish: function (data) {
-                    var buttonChoices = data.buttonChoices;
-                    var answer = buttonChoices[data.response];
-                    var accuracy = answer === data.word ? 1 : 0;
-                    var sliderValue = data.response_slider || 5; // Default to 5 if no slider movement
+                    let selectedAnswer = null;
 
-                    jsPsych.data.addDataToLastTrial({
-                        answer: answer,
-                        accuracy: accuracy,
-                        difficulty: sliderValue
+                    const nextButton = document.getElementById("next-button");
+                    const slider = document.getElementById("difficulty-slider");
+                    const responseButtons = document.querySelectorAll(".response-button");
+
+                    // Add event listener to response buttons
+                    responseButtons.forEach(button => {
+                        button.addEventListener("click", function () {
+                            selectedAnswer = button.dataset.choice; // Get selected button index
+                            responseButtons.forEach(btn => {
+                                btn.classList.remove("selected"); // Remove selected class from other buttons
+                                btn.style.backgroundColor = "#ffffff"; // Reset background to white
+                            });
+                            button.classList.add("selected"); // Add selected class
+                            button.style.backgroundColor = "#d9d9d9"; // Change background to grey for selected button
+                            checkReadyToProceed();
+                        });
+                    });
+
+
+                    function checkReadyToProceed() {
+                        if (selectedAnswer !== null) {
+                            nextButton.disabled = false; // Enable Next button
+                        }
+                    }
+
+                    // Add event listener to the "Next" button
+                    nextButton.addEventListener("click", function () {
+                        const sliderValue = parseInt(slider.value);
+                        const answer = buttonChoices[selectedAnswer];
+
+                        jsPsych.finishTrial({
+                            answer: answer,
+                            sliderValue: sliderValue,
+                            accuracy: answer === currentStimulus.word ? 1 : 0,
+                        });
                     });
                 }
             });
@@ -518,8 +562,6 @@
         timeline: [prac_procedure_1],
         randomize_order: false
     };
-
-
 
 
     var correctLoop_node = {
