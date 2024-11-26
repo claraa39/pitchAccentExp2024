@@ -37,7 +37,7 @@
     <script src="jspsych/plugin-categorize-html.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
-    
+
     <!-- Loads the css file with the standard formatting -->
     <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css">
     </link>
@@ -149,7 +149,7 @@
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br><span style="color: red;">Please also rate the difficulty of confirming the word you hear.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
     practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
@@ -342,7 +342,7 @@
             exp_block.push({
                 type: jsPsychHtmlButtonResponse,
                 stimulus: function () {
-                return `
+                    return `
                     <div>
                         ${question}
                         <div style="margin: 20px auto; width: 500px;">
@@ -363,37 +363,37 @@
                         </div>
                     </div>
                 `;
-            },
-            choices: buttonChoices,
-            data: {
-                phase: 'iden_exp',
-                word: currentStimulus.word,
-                noise: currentStimulus.noise,
-                block: block,
-                F0step: currentStimulus.F0step,
-                buttonChoices: buttonChoices,
-                sound: currentStimulus.sound,
-            },
-            on_load: function () {
-                // Reset slider to default value (5) at trial start
-                document.getElementById("difficulty-slider").value = 5;
-                // Also reset the stored response_slider value
-                jsPsych.data.addProperties({ response_slider: 5 });
-            },
-            on_finish: function (data) {
-                var buttonChoices = data.buttonChoices;
-                var answer = buttonChoices[data.response];
-                var accuracy = answer === data.word ? 1 : 0;
-                var sliderValue = data.response_slider || 5; // Default to 5 if no slider movement
+                },
+                choices: buttonChoices,
+                data: {
+                    phase: 'iden_exp',
+                    word: currentStimulus.word,
+                    noise: currentStimulus.noise,
+                    block: block,
+                    F0step: currentStimulus.F0step,
+                    buttonChoices: buttonChoices,
+                    sound: currentStimulus.sound,
+                },
+                on_load: function () {
+                    // Reset slider to default value (5) at trial start
+                    document.getElementById("difficulty-slider").value = 5;
+                    // Also reset the stored response_slider value
+                    jsPsych.data.addProperties({ response_slider: 5 });
+                },
+                on_finish: function (data) {
+                    var buttonChoices = data.buttonChoices;
+                    var answer = buttonChoices[data.response];
+                    var accuracy = answer === data.word ? 1 : 0;
+                    var sliderValue = data.response_slider || 5; // Default to 5 if no slider movement
 
-                jsPsych.data.addDataToLastTrial({
-                    answer: answer, 
-                    accuracy: accuracy,
-                    difficulty: sliderValue
-                });
-            }
-        });
-    }
+                    jsPsych.data.addDataToLastTrial({
+                        answer: answer,
+                        accuracy: accuracy,
+                        difficulty: sliderValue
+                    });
+                }
+            });
+        }
         // Swap button for each set
         if (j < noOfRepetitions - 1) {
             exp_block.push({
@@ -441,7 +441,11 @@
             jsPsych.timelineVariable('textOption_0'),
             jsPsych.timelineVariable('textOption_1'),
             jsPsych.timelineVariable('textOption_2'),
-            jsPsych.timelineVariable('textOption_3')
+            jsPsych.timelineVariable('textOption_3'),
+            jsPsych.timelineVariable('textOption_4'),
+            jsPsych.timelineVariable('textOption_5'),
+            jsPsych.timelineVariable('textOption_6'),
+            jsPsych.timelineVariable('textOption_7')
         ],
         data: {
             phase: 'practice',
@@ -453,7 +457,11 @@
                 jsPsych.timelineVariable('textOption_0'),
                 jsPsych.timelineVariable('textOption_1'),
                 jsPsych.timelineVariable('textOption_2'),
-                jsPsych.timelineVariable('textOption_3')
+                jsPsych.timelineVariable('textOption_3'),
+                jsPsych.timelineVariable('textOption_4'),
+                jsPsych.timelineVariable('textOption_5'),
+                jsPsych.timelineVariable('textOption_6'),
+                jsPsych.timelineVariable('textOption_7')
             ],
             sound: jsPsych.timelineVariable('sound'),
         },
@@ -489,7 +497,6 @@
     }
 
     var if_continue = {
-
         type: jsPsychHtmlButtonResponse,
         stimulus: question_continue,
         choices: ["Repeat", "Continue"]
@@ -498,7 +505,7 @@
 
     var prac_procedure_1 = {
         timeline: [practice_sound, practice_question, practice_feedback],
-        timeline_variables: practiceStimuliList.slice(0, 4),
+        timeline_variables: practiceStimuliList.slice(0, 8),
         randomize_order: true
     };
     var prac_procedure_2 = {
@@ -508,7 +515,7 @@
     };
 
     var practice_set = {
-        timeline: [prac_procedure_1,buttonChangeInstructions, prac_procedure_2],
+        timeline: [prac_procedure_1],
         randomize_order: false
     };
 
@@ -516,17 +523,17 @@
 
 
     var correctLoop_node = {
-        timeline: [practice_set,buttonChangeInstructions],
-        loop_function: function(){
-        console.log(noOfCorrectPractice)
-        if (noOfCorrectPractice < noOfCorrectPracticeToMoveOn) { 
-            noOfCorrectPractice = 0;
-            console.log("repeat")
-            return true;
-        }
-        else{
-            return false;
-        }
+        timeline: [prac_procedure_1],
+        loop_function: function () {
+            console.log(noOfCorrectPractice)
+            if (noOfCorrectPractice < noOfCorrectPracticeToMoveOn) {
+                noOfCorrectPractice = 0;
+                console.log("repeat")
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 
