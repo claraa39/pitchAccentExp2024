@@ -139,7 +139,7 @@
     /*********************************************************************************/
     /****************************** Global Variables *********************************/
     /*********************************************************************************/
-    noOfCorrectPracticeToMoveOn = 7;
+    noOfCorrectPracticeToMoveOn = 1;
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
@@ -545,7 +545,7 @@
 
     var prac_procedure_1 = {
         timeline: [practice_sound, practice_question, practice_feedback],
-        timeline_variables: practiceStimuliList.slice(0, 8),
+        timeline_variables: practiceStimuliList.slice(0, 1),
         randomize_order: true
     };
     var prac_procedure_2 = {
@@ -594,6 +594,31 @@
 
     practice_block.push(correctLoop_node);
 
+    /*********************************************************************************/
+    /*************************** Volume adjustment block *****************************/
+    /*********************************************************************************/
+    var volume_adjustment_block = {
+        type: jsPsychInstructions,
+        pages: [
+            `<h1>Volume Adjustment</h1>
+             <p>Please adjust your device volume so that you can hear the sound clearly.</p>
+             <p>You can play the audio as many times as needed by clicking the "Play Audio" button below.</p>
+             <button id="play-audio-button" class="snd-btn">Play Audio</button>
+             <audio id="volume-audio" src="sound/HARD_-6.wav"></audio>
+             <p>When you are ready, click the "Next" button to proceed.</p>`
+        ],
+        show_clickable_nav: true,
+        button_label_next: "Next",
+        on_load: function () {
+            const playButton = document.getElementById('play-audio-button');
+            const audioElement = document.getElementById('volume-audio');
+
+            // Add event listener to play button
+            playButton.addEventListener('click', () => {
+                audioElement.play();
+            });
+        }
+    };
 
     /*********************************************************************************/
     /************************** User defined functions *******************************/
@@ -699,6 +724,7 @@
     //timeline = timeline.concat(sound_test);
     timeline = timeline.concat(participantID_block);
     timeline = timeline.concat(instructions_block);
+    timeline = timeline.concat(volume_adjustment_block);
     timeline = timeline.concat(practice_block);
     timeline = timeline.concat(instructionsAfterPractice_block);
     timeline = timeline.concat(exp_block);
