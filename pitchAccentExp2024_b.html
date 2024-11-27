@@ -139,7 +139,7 @@
     /*********************************************************************************/
     /****************************** Global Variables *********************************/
     /*********************************************************************************/
-    noOfCorrectPracticeToMoveOn = 2;
+    noOfCorrectPracticeToMoveOn = 0;
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
@@ -149,8 +149,8 @@
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br><span style="color: red;">Please also use the slider to rate how closely the sound matches the word you select.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
-    practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.</p>';
+    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">The formal test starts from here.<br><span style="color: red;">You will need to rate how confident you are that the word you selected is correct.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
+    practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.<br><span style="color: red;">You will need to rate how confident you are that the word you selected is correct.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Practice continues</h1>';
     buttonSwapText = '<p style="text-align: center;">The button positions will be swapped.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
@@ -327,7 +327,6 @@
 
         for (var k = 0; k < exp_stimuli.length; k++) {
             currentStimulus = exp_stimuli[k];
-            console.log(currentStimulus);
 
             var buttonChoices = (j % 2 === 0)
                 ? [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3]
@@ -363,8 +362,8 @@
                     ).join("")}
                             </div>
                             <div style="margin: 20px auto; width: 500px;">
-                                <p style="text-align: center;margin-bottom: 10px; font-size: 18px; font-weight: bold;">How close does the sound match the word you select?</p>
-                                <input type="range" id="goodness-slider" min="1" max="10" value="5" step="1" 
+                                <p style="text-align: center;margin-bottom: 10px; font-size: 18px; font-weight: bold;">How confident are you that the word you selected is correct?</p>
+                                <input type="range" id="confidence-slider" min="1" max="10" value="5" step="1" 
                                     style="width: 100%;">
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
                                     <span>1</span><span>2</span><span>3</span><span>4</span>
@@ -372,8 +371,8 @@
                                     <span>9</span><span>10</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                    <span style="text-align: left; color: #666;">Poor match</span>
-                                    <span style="text-align: right; color: #666;">Perfect match</span>
+                                    <span style="text-align: left; color: #666;">Not confident at all</span>
+                                    <span style="text-align: right; color: #666;">Very confident</span>
                                 </div>
                             </div>
                             <div style="margin-top: 20px; text-align: right;">
@@ -394,11 +393,10 @@
                 },
                 on_load: function () {
                     let selectedAnswer = null;
-
                     const nextButton = document.getElementById("next-button");
-                    const slider = document.getElementById("goodness-slider");
+                    const slider = document.getElementById("confidence-slider");
                     const responseButtons = document.querySelectorAll(".response-button");
-
+                    const correctAnswer = this.data.word;
                     // Add event listener to response buttons
                     responseButtons.forEach(button => {
                         button.addEventListener("click", function () {
@@ -425,10 +423,12 @@
                         const sliderValue = parseInt(slider.value);
                         const answer = buttonChoices[selectedAnswer];
 
+                        console.log("Answer:", answer);
+
                         jsPsych.finishTrial({
                             answer: answer,
                             sliderValue: sliderValue,
-                            accuracy: answer === currentStimulus.word ? 1 : 0,
+                            accuracy: answer === correctAnswer ? 1 : 0,
                         });
                     });
                 }
@@ -466,31 +466,117 @@
     };
 
     var practice_question = {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: question,
-        choices: [
-            'textOption_0', 'textOption_1', 'textOption_2', 'textOption_3',
-            'textOption_4', 'textOption_5', 'textOption_6', 'textOption_7'
-        ].map(option => jsPsych.timelineVariable(option)),
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+            // Define button choices dynamically from timeline variables
+            const choices = [
+                jsPsych.timelineVariable('textOption_0'),
+                jsPsych.timelineVariable('textOption_1'),
+                jsPsych.timelineVariable('textOption_2'),
+                jsPsych.timelineVariable('textOption_3'),
+                jsPsych.timelineVariable('textOption_4'),
+                jsPsych.timelineVariable('textOption_5'),
+                jsPsych.timelineVariable('textOption_6'),
+                jsPsych.timelineVariable('textOption_7')
+            ];
+
+            // Store button choices in trial data for consistent reference
+            jsPsych.data.addProperties({
+                practiceChoices: choices,
+                correctWord: jsPsych.timelineVariable('word')  // Add this line
+            });
+
+            return `
+                <div>
+                    ${question}
+                    <div id="button-container" style="margin-top: 20px; text-align: center;">
+                        ${choices.map((choice, idx) =>
+                `<button class="response-button jspsych-btn" id="button-${idx}" data-choice="${idx}" 
+                                style="margin: 10px; padding: 20px 40px; font-size: 22px; 
+                                       border: 1px solid #ccc; border-radius: 8px; background-color: #ffffff;"> 
+                                ${choice}
+                            </button>`
+            ).join("")}
+                    </div>
+                    <div style="margin: 20px auto; width: 500px;">
+                        <p style="text-align: center;margin-bottom: 10px; font-size: 18px; font-weight: bold;">
+                            How confident are you that the word you selected is correct?
+                        </p>
+                        <input type="range" id="confidence-slider" min="1" max="10" value="5" step="1" style="width: 100%;"/>
+                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                            <span>1</span><span>2</span><span>3</span><span>4</span>
+                            <span>5</span><span>6</span><span>7</span><span>8</span>
+                            <span>9</span><span>10</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                            <span style="text-align: left; color: #666;">Not confident at all</span>
+                            <span style="text-align: right; color: #666;">Very confident</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; text-align: right;">
+                        <button id="next-button" class="jspsych-btn" disabled>Next</button>
+                    </div>
+                </div>
+            `;
+        },
+        choices: "NO_KEYS", // Disable automatic keyboard navigation
         data: {
             phase: 'practice',
             word: jsPsych.timelineVariable('word'),
+            correctAnswer: jsPsych.timelineVariable('word'),
             noise: jsPsych.timelineVariable('noise'),
             block: "practice",
             F0step: jsPsych.timelineVariable('F0step'),
             sound: jsPsych.timelineVariable('sound'),
         },
-        on_finish: function (data) {
-            const answer = this.choices[data.response];
-            const accuracy = answer === data.word ? 1 : 0;
+        on_load: function () {
+            let selectedAnswer = null;
+            const nextButton = document.getElementById("next-button");
+            const slider = document.getElementById("confidence-slider");
+            const responseButtons = document.querySelectorAll(".response-button");
 
-            if (accuracy === 1) {
-                noOfCorrectPractice++;
+            // Fetch buttonChoices and correct word from trial data
+            const lastTrialData = jsPsych.data.get().last(1).values()[0];
+            const practiceChoices = lastTrialData.practiceChoices;
+            const correctWord = lastTrialData.correctWord;
+
+            // Add event listener to response buttons
+            responseButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    selectedAnswer = button.dataset.choice;
+                    responseButtons.forEach(btn => {
+                        btn.classList.remove("selected");
+                        btn.style.backgroundColor = "#ffffff";
+                    });
+                    button.classList.add("selected");
+                    button.style.backgroundColor = "#d9d9d9";
+                    checkReadyToProceed();
+                });
+            });
+
+            function checkReadyToProceed() {
+                if (selectedAnswer !== null) {
+                    nextButton.disabled = false;
+                }
             }
 
-            jsPsych.data.addDataToLastTrial({
-                answer: answer,
-                accuracy: accuracy
+            // Add event listener to the "Next" button
+            nextButton.addEventListener("click", function () {
+                const sliderValue_practice = parseInt(slider.value);
+                const answer_practice = practiceChoices[selectedAnswer];
+
+                var accuracy = answer_practice === correctWord ? 1 : 0;
+                if (accuracy === 1) {
+                    noOfCorrectPractice++;
+                    console.log("noOfCorrectPractice", noOfCorrectPractice);
+                }
+
+                jsPsych.finishTrial({
+                    selectedAnswer: answer_practice,
+                    sliderValue: sliderValue_practice,
+                    correctAnswer: correctWord,
+                    accuracy: accuracy
+                });
             });
         }
     };
@@ -499,16 +585,21 @@
     var practice_feedback = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function () {
-            var feedback_text = incorrectFeedbackText + '<span style="color:red;font-size:30px;">' + jsPsych.data.getLastTrialData().values()[0].word + '</span>';
-            var last_resp_acc = jsPsych.data.getLastTrialData().values()[0].accuracy;
-            if (last_resp_acc == 1) {
-                feedback_text = correctFeedbackText;
+            const lastTrialData = jsPsych.data.getLastTrialData().values()[0];
+            console.log("Last trial data:", lastTrialData);
+            const correctAnswer = lastTrialData.correctAnswer;
+            const accuracy = lastTrialData.accuracy;
+
+            if (accuracy === 1) {
+                return '<span style="color:green;font-size:30px;">Correct</span>';
+            } else {
+                return `<span style="color:red;font-size:30px;">Incorrect. The correct answer is <b>${correctAnswer}</b>.</span>`;
             }
-            return feedback_text;
         },
         choices: "NO_KEYS",
         trial_duration: 1000
-    }
+    };
+
 
     var if_continue = {
         type: jsPsychHtmlButtonResponse,
@@ -518,7 +609,7 @@
 
     var prac_procedure_1 = {
         timeline: [practice_sound, practice_question, practice_feedback],
-        timeline_variables: practiceStimuliList.slice(0, 5),
+        timeline_variables: practiceStimuliList.slice(0, 1),
         randomize_order: true
     };
     var prac_procedure_2 = {
@@ -536,7 +627,6 @@
     var correctLoop_node = {
         timeline: [prac_procedure_1],
         loop_function: function () {
-            console.log(noOfCorrectPractice)
             if (noOfCorrectPractice < noOfCorrectPracticeToMoveOn) {
                 noOfCorrectPractice = 0;
                 console.log("repeat")
