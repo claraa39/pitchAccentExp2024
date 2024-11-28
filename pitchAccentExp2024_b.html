@@ -139,7 +139,7 @@
     /*********************************************************************************/
     /****************************** Global Variables *********************************/
     /*********************************************************************************/
-    noOfCorrectPracticeToMoveOn = 0;
+    noOfCorrectPracticeToMoveOn = 7;
     inst = ''; // Variable for storing the instructions
     stimuliList = '';// Variable for storing the input data (csv)
     consent = '';// Variable for storing the consent
@@ -609,7 +609,7 @@
 
     var prac_procedure_1 = {
         timeline: [practice_sound, practice_question, practice_feedback],
-        timeline_variables: practiceStimuliList.slice(0, 1),
+        timeline_variables: practiceStimuliList.slice(0, 8),
         randomize_order: true
     };
     var prac_procedure_2 = {
