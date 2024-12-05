@@ -202,6 +202,17 @@
     totalNumberPractice = practiceStimuliList.length;
     //practiceStimuliList.json = JSON.stringify(practiceStimuliList); //JSON
 
+    // /** This reads in the data for getting familiar with the vowels from vowel_listening.csv and stores it in 
+    // 	a variable called 'vowelsClean'.
+    // **/
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "configFiles/vowel_listening.csv",
+        dataType: "text",
+        success: function (csv) { vowelsClean = csvJSON(csv) }
+    });
+
     /*********************************************************************************/
     /****************************** Initialising jsPsych *****************************/
     /*********************************************************************************/
@@ -666,6 +677,7 @@
             `<h1>Volume Adjustment</h1>
              <p>Please adjust your device volume so that you can hear the sound clearly.</p>
              <p>You can play the audio as many times as needed by clicking the "Play Audio" button below.</p>
+             <p>Please <span style="color: red;">do not change the volume </span>throughout the test after this page.</p>
              <button id="play-audio-button" class="snd-btn">Play Audio</button>
              <audio id="volume-audio" src="sound/HARD_-6.wav"></audio>
              <p>When you are ready, click the "Next" button to proceed.</p>`
@@ -679,6 +691,62 @@
             // Add event listener to play button
             playButton.addEventListener('click', () => {
                 audioElement.play();
+            });
+        }
+    };
+
+    /*********************************************************************************/
+    /*************************** Vowel listening block *****************************/
+    /*********************************************************************************/
+    var vowel_listening_block = {
+        type: jsPsychInstructions,
+        pages: [
+            `<h1>Get familiar with the vowels first!</h1>
+             <p>Click on the vowels below to hear how they sound like.</p>
+             <div id="buttons-container"></div>
+             <style>
+                .snd-btn {
+                    font-size: 22px;
+                    padding: 20px 40px;
+                    margin: 10px;
+                    width: 200px;
+                    height: 60px;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    margin: 10px;                                                                                                 
+                }
+                .snd-btn:hover {
+                    background-color: #ffffff;">;
+                }
+            </style>
+             <p>When you are ready, click the "Next" button to do some practice.</p>`
+        ],
+        show_clickable_nav: true,
+        button_label_next: "Next",
+        on_load: function () {
+            const container = document.getElementById('buttons-container');
+
+            // Iterate through vowelsClean to create buttons and audio elements
+            vowelsClean.forEach((item, index) => {
+                // Create button
+                const button = document.createElement('button');
+                button.id = `play-btn-${index}`;
+                button.className = 'snd-btn';
+                button.textContent = item.ButtonText;
+
+                // Create audio element
+                const audio = document.createElement('audio');
+                audio.id = `audio-${index}`;
+                audio.src = `sound/${item.SoundFile}`;
+
+                // Append button to container
+                container.appendChild(button);
+
+                // Add click event to play corresponding audio
+                button.addEventListener('click', () => {
+                    audio.play();
+                });
             });
         }
     };
@@ -788,6 +856,7 @@
     timeline = timeline.concat(participantID_block);
     timeline = timeline.concat(instructions_block);
     timeline = timeline.concat(volume_adjustment_block);
+    timeline = timeline.concat(vowel_listening_block);
     timeline = timeline.concat(practice_block);
     timeline = timeline.concat(instructionsAfterPractice_block);
     timeline = timeline.concat(exp_block);
