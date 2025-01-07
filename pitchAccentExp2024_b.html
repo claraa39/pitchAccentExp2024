@@ -149,17 +149,16 @@
     practiceStimuliList = '';
     stimuliList = '';
 
-    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">You will need to rate how confident you are that the word you selected is correct.<br><span style="color: red;">You may not hear all the words from the choices provided throughout the test, just select the word you believe you heard.</span><br>If you have any question, please do not heasitate to ask.<br>The audio will only play once.<br>Please press the「Next」button to start.<\p>';
-    practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br>Please press the「Next」button to start.<br><span style="color: red;">You will need to rate how confident you are that the word you selected is correct.</p>';
+    instructionsAfterPractice = '<h1>Formal Test</h1><p style="text-align: center;">Now you will listen to some audio with noise.<br>You will need to rate how confident you are that the word you selected is correct.<br>The audio will only play once.<br>If you have any question, please do not heasitate to ask.<br>Please press the「Next」button to start.</p>';
+    practiceInstructions = '<h1>Practice</h1><br/><p style="text-align: center;">Let\'s start with some practice first!<br><span style="color: red;">You will need to rate how confident you are that the word you selected is correct.</span><br>Please press the「Next」button to start.</p>';
     question = '<h1>Which word did you hear?</h1>';
     question_continue = '<h1>Repeat</h1><br>If you are confident that you are familiar with the vowels, press「Continue」to go to the formal test.<br>Press「Repeat」if you want to do the Practice again.</p>';
     buttonSwapText = '<p style="text-align: center;">The button positions will be swapped.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
-    buttonChangeText = '<p style="text-align: center;">The buttons will be changed.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
+    buttonChangeText = '<p style="text-align: center;">The buttons will be swapped.<br>Please press the「Next」button to start.<br>Please feel free to take a break.</p>';
     finishText = '<p style="text-align: center;">Here completes the test, thank you for your participation! </p><br/>';
 
     correctFeedbackText = '<span style="color:green;font-size:30px;">Correct</span>'
     incorrectFeedbackText = '<span style="color:red;font-size:30px;">The correct answer should be </p>'
-    //incorrectFeedbackText2 = '<span style="color:red;font-size:30px;">です。</span>'
 
     noOfCorrectPractice = 0;
 
@@ -340,8 +339,8 @@
             currentStimulus = exp_stimuli[k];
 
             const buttonChoices = (j % 2 === 0)
-                ? [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3, currentStimulus.textOption_4]
-                : [currentStimulus.textOption_1, currentStimulus.textOption_4, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2];
+                ? [currentStimulus.textOption_0, currentStimulus.textOption_1, currentStimulus.textOption_2, currentStimulus.textOption_3]
+                : [currentStimulus.textOption_1, currentStimulus.textOption_0, currentStimulus.textOption_3, currentStimulus.textOption_2];
 
             //	Plays the sound
             exp_block.push(
